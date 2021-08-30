@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>985769693033-ji3p0bb2pehhatmsggil9uv20bugrm47.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.985769693033-ji3p0bb2pehhatmsggil9uv20bugrm47</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCJs6fbBO5mB7wlXDW5cp5mNFVlPzROJNM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>985769693033</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.zomatoclone2</string>
+	<key>PROJECT_ID</key>
+	<string>rn-zomato</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rn-zomato.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:985769693033:ios:9a2d2ec8cb35ee43e3b7f8</string>
+</dict>
+</plist>
