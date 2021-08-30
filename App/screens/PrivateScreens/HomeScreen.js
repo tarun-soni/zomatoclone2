@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     color: colors.zomatoLogoRed,
   },
 })
+
 const HomeScreen = () => {
   const navigation = useNavigation()
   const logoutHandler = async () => {
