@@ -74,7 +74,7 @@ const LoginScreen = ({ navigation }) => {
                     textDecorationLine: 'underline',
                   }}
                 >
-                  Have and Account? SIGNUP
+                  Don&apos;t have an Account? SIGNUP
                 </Text>
               </TouchableOpacity>
             </>

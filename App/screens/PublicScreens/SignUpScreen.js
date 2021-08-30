@@ -1,8 +1,18 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, SafeAreaView, ScrollView, View } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  View,
+  TouchableOpacity,
+} from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import colors from '../../constants/colors'
 import CustomButton from '../../components/CustomButton'
 import CustomTextInput from '../../components/CustomTextInput'
+import { HOMESCREEN, LOGINSCREEN } from '../../constants/screens'
+import { auth } from '../../config/firebase'
 
 const styles = StyleSheet.create({
   contanier: {
@@ -20,15 +30,32 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
 })
+
 const SignUpScreen = () => {
+  const navigation = useNavigation()
   const [fullName, setFullName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState('u1@example.com')
+  const [password, setPassword] = useState('1212')
   const [confirmPassword, setConfirmPassword] = useState()
   const [mobile, setMobile] = useState('')
 
-  const onSignUpPress = () => {
-    alert('test')
+  const onSignUpPress = async () => {
+    try {
+      const res = await auth.createUserWithEmailAndPassword(email, password)
+      console.log(`res`, res)
+
+      console.log('User account created & signed in!')
+      navigation.navigate(HOMESCREEN)
+    } catch (error) {
+      console.log(`error`, error)
+      if (error.code === 'auth/email-already-in-use') {
+        console.log('That email address is already in use!')
+      }
+
+      if (error.code === 'auth/invalid-email') {
+        console.log('That email address is invalid!')
+      }
+    }
   }
   return (
     <SafeAreaView>
@@ -54,27 +81,27 @@ const SignUpScreen = () => {
 
             <View style={styles.inputs_container}>
               <CustomTextInput
-                value={fullName}
+                inputValue={fullName}
                 setInputValue={setFullName}
                 placeholderText="Full Name"
               />
               <CustomTextInput
-                value={email}
+                inputValue={email}
                 setInputValue={setEmail}
                 placeholderText="Email"
               />
               <CustomTextInput
-                value={mobile}
+                inputValue={mobile}
                 setInputValue={setMobile}
                 placeholderText="Mobile Number"
               />
               <CustomTextInput
-                value={password}
+                inputValue={password}
                 setInputValue={setPassword}
                 placeholderText="Password"
               />
               <CustomTextInput
-                value={confirmPassword}
+                inputValue={confirmPassword}
                 setInputValue={setConfirmPassword}
                 placeholderText="Confirm Password"
               />
@@ -82,6 +109,22 @@ const SignUpScreen = () => {
           </View>
         </ScrollView>
         <CustomButton text="SIGN IN" onPress={onSignUpPress} />
+        <TouchableOpacity
+          onPress={() => navigation.navigate(LOGINSCREEN)}
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text
+            style={{
+              color: '#242424',
+              textDecorationLine: 'underline',
+            }}
+          >
+            Have and Account? LOGIN
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   )
