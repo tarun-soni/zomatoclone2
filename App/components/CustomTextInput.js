@@ -6,9 +6,10 @@ const styles = StyleSheet.create({
     height: 52,
     width: '100%',
     borderWidth: 1,
-    borderColor: 'red',
+    borderColor: 'black',
     paddingLeft: 10,
-    marginBottom: 10,
+    marginVertical: 8,
+    borderRadius: 4,
   },
 })
 
@@ -17,7 +18,6 @@ const CustomTextInput = ({ inputValue, setInputValue, placeholderText }) => {
     <TextInput
       value={inputValue}
       onChangeText={text => setInputValue(text)}
-      placeholderTextColor="black"
       placeholder={placeholderText}
       style={styles.input}
     />

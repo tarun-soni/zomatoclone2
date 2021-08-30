@@ -17,7 +17,7 @@ const AppRoutes = [
   {
     name: SIGNUPSCREEN,
     component: SignUpScreen,
-    options: {},
+    options: { headerShown: false },
   },
 ]
 

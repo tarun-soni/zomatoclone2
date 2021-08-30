@@ -13,7 +13,8 @@ const App = () => {
   return (
     <NavigationContainer>
       <MainStack.Navigator
-        initialRouteName={isLoggedIn ? HOMESCREEN : LOGINSCREEN}>
+        initialRouteName={isLoggedIn ? HOMESCREEN : LOGINSCREEN}
+      >
         {AppRoutes.map(route => (
           <MainStack.Screen
             key={route.name}

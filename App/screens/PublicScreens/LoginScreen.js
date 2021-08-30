@@ -7,7 +7,10 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
-  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native'
 import colors from '../../constants/colors'
 import Logo from '../../components/Logo'
@@ -31,25 +34,6 @@ const styles = StyleSheet.create({
   },
 
   //
-
-  topSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '30%',
-  },
-  body: {
-    flex: 1,
-    backgroundColor: 'white',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  bottomSection: {
-    width: '100%',
-    height: '70%',
-    backgroundColor: colors.zomatoLogoRed,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-  },
 })
 
 const LoginScreen = ({ navigation }) => {
@@ -62,33 +46,41 @@ const LoginScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.contanier}>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <Logo ScrollView />
-      <View>
-        <View style={styles.inputs_container}>
-          <Text style={{ fontFamily: 'Nunito-Regular' }}>Email</Text>
-          <CustomTextInput value={email} setInputValue={setEmail} />
-          <Text style={{ fontFamily: 'Nunito-Regular' }}>Password</Text>
-          <CustomTextInput value={password} setInputValue={setPassword} />
-        </View>
-        <CustomButton text="LOGIN" onPress={onLoginPress} />
-      </View>
-
-      <TouchableOpacity
-        onPress={() => navigation.navigate(SIGNUPSCREEN)}
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Text
-          style={{
-            color: '#242424',
-            textDecorationLine: 'underline',
-          }}
+      <Logo />
+      <ScrollView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-          Have and Account? SIGNUP
-        </Text>
-      </TouchableOpacity>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <>
+              <View style={styles.inputs_container}>
+                <Text style={{ fontFamily: 'Nunito-Regular' }}>Email</Text>
+                <CustomTextInput value={email} setInputValue={setEmail} />
+                <Text style={{ fontFamily: 'Nunito-Regular' }}>Password</Text>
+                <CustomTextInput value={password} setInputValue={setPassword} />
+              </View>
+              <CustomButton text="LOGIN" onPress={onLoginPress} />
+
+              <TouchableOpacity
+                onPress={() => navigation.navigate(SIGNUPSCREEN)}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Text
+                  style={{
+                    color: '#242424',
+                    textDecorationLine: 'underline',
+                  }}
+                >
+                  Have and Account? SIGNUP
+                </Text>
+              </TouchableOpacity>
+            </>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   )
 }
