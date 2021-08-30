@@ -16,7 +16,8 @@ import colors from '../../constants/colors'
 import Logo from '../../components/Logo'
 import CustomTextInput from '../../components/CustomTextInput'
 import CustomButton from '../../components/CustomButton'
-import { SIGNUPSCREEN } from '../../constants/screens'
+import { HOMESCREEN, SIGNUPSCREEN } from '../../constants/screens'
+import { auth } from '../../config/firebase'
 
 const styles = StyleSheet.create({
   contanier: {
@@ -37,10 +38,25 @@ const styles = StyleSheet.create({
 })
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('test@example.com')
-  const [password, setPassword] = useState('1212')
-  const onLoginPress = () => {
-    alert('test')
+  const [email, setEmail] = useState('u1@example.com')
+  const [password, setPassword] = useState('789456789456')
+  const onLoginPress = async () => {
+    try {
+      const res = await auth.signInWithEmailAndPassword(email, password)
+      console.log(`res`, res)
+
+      console.log('User signed in!')
+      navigation.navigate(HOMESCREEN)
+    } catch (error) {
+      console.log(`error`, error)
+      if (error.code === 'auth/email-already-in-use') {
+        console.log('That email address is already in use!')
+      }
+
+      if (error.code === 'auth/invalid-email') {
+        console.log('That email address is invalid!')
+      }
+    }
   }
 
   return (
@@ -55,9 +71,12 @@ const LoginScreen = ({ navigation }) => {
             <>
               <View style={styles.inputs_container}>
                 <Text style={{ fontFamily: 'Nunito-Regular' }}>Email</Text>
-                <CustomTextInput value={email} setInputValue={setEmail} />
+                <CustomTextInput inputValue={email} setInputValue={setEmail} />
                 <Text style={{ fontFamily: 'Nunito-Regular' }}>Password</Text>
-                <CustomTextInput value={password} setInputValue={setPassword} />
+                <CustomTextInput
+                  inputValue={password}
+                  setInputValue={setPassword}
+                />
               </View>
               <CustomButton text="LOGIN" onPress={onLoginPress} />
 
