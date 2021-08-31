@@ -3,9 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import auth from '@react-native-firebase/auth'
 import { useDispatch } from 'react-redux'
+import { Text } from 'react-native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { HOMESCREEN, LOGINSCREEN } from './constants/screens'
-import AppRoutes from './config/AppRoutes'
+import { AppRoutes, HomeTabRoutes } from './config/AppRoutes'
 import { setGlobalUser, setLoading } from './redux/slices/appReducer'
+import Loader from './components/Loader'
+import OrderScreen from './screens/PrivateScreens/OrderScreen'
+import ProScreen from './screens/PrivateScreens/ProScreen'
 
 const Main = () => {
   // Set an initializing state whilst Firebase connects
@@ -33,7 +38,42 @@ const Main = () => {
 
   const MainStack = createNativeStackNavigator()
 
-  if (initializing) return null
+  const TabStack = createBottomTabNavigator()
+  if (initializing) return <Loader />
+
+  if (user) {
+    return (
+      <TabStack.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName
+
+            if (route.name === 'OrderScreen') {
+              iconName = focused
+                ? 'ios-information-circle'
+                : 'ios-information-circle-outline'
+            } else if (route.name === 'ProScreen') {
+              iconName = focused ? 'ios-list-box' : 'ios-list'
+            }
+
+            // You can return any component that you like here!
+            return <Text>ICON</Text>
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        {HomeTabRoutes.map(tab => (
+          <TabStack.Screen
+            key={tab.name}
+            name={tab.name}
+            component={tab.component}
+            options={tab.options}
+          />
+        ))}
+      </TabStack.Navigator>
+    )
+  }
 
   return (
     <MainStack.Navigator initialRouteName={user ? HOMESCREEN : LOGINSCREEN}>

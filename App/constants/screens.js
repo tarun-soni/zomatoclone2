@@ -1,3 +1,7 @@
 export const HOMESCREEN = 'HomeScreen'
 export const LOGINSCREEN = 'LoginScreen'
 export const SIGNUPSCREEN = 'SignUpScreen'
+export const ORDER_TAB = 'OrderScreen'
+export const USER_PROFILE_TAB = 'UserProfileScreen'
+export const PRO_TAB = 'ProScreen'
+export const GO_OUT_TAB = 'GoOutScreen'
