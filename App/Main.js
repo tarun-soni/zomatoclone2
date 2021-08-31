@@ -2,26 +2,33 @@ import React, { useEffect, useState } from 'react'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import auth from '@react-native-firebase/auth'
+import { useDispatch } from 'react-redux'
 import { HOMESCREEN, LOGINSCREEN } from './constants/screens'
 import AppRoutes from './config/AppRoutes'
+import { setGlobalUser, setLoading } from './redux/slices/appReducer'
 
 const Main = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true)
   const [user, setUser] = useState(null)
+  const dispatch = useDispatch()
 
   // Handle user state changes
   useEffect(() => {
     function onAuthStateChanged(_user = {}) {
-      console.log(`_user`, _user)
       setUser(_user)
-      // if (_user) dispatch(setGlobalUser(_user))
-      if (initializing) setInitializing(false)
+      dispatch(setLoading(false))
+      if (_user) dispatch(setGlobalUser(JSON.stringify(_user)))
+      if (initializing) {
+        setInitializing(false)
+        dispatch(setLoading(false))
+      }
     }
 
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
 
-    return subscriber // unsubscribe on unmount
+    return subscriber
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const MainStack = createNativeStackNavigator()

@@ -12,12 +12,15 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import colors from '../../constants/colors'
 import Logo from '../../components/Logo'
 import CustomTextInput from '../../components/CustomTextInput'
 import CustomButton from '../../components/CustomButton'
 import { HOMESCREEN, SIGNUPSCREEN } from '../../constants/screens'
 import { auth } from '../../config/firebase'
+import { selectLoading, setLoading } from '../../redux/slices/appReducer'
+import Loader from '../../components/Loader'
 
 const styles = StyleSheet.create({
   contanier: {
@@ -38,10 +41,14 @@ const styles = StyleSheet.create({
 })
 
 const LoginScreen = ({ navigation }) => {
+  const dispatch = useDispatch()
   const [email, setEmail] = useState('u1@example.com')
   const [password, setPassword] = useState('789456789456')
+
+  const isLoading = useSelector(selectLoading)
   const onLoginPress = async () => {
     try {
+      dispatch(setLoading(true))
       const res = await auth.signInWithEmailAndPassword(email, password)
       console.log(`res`, res)
 
@@ -56,8 +63,12 @@ const LoginScreen = ({ navigation }) => {
       if (error.code === 'auth/invalid-email') {
         console.log('That email address is invalid!')
       }
+    } finally {
+      dispatch(setLoading(false))
     }
   }
+
+  if (isLoading) return <Loader />
 
   return (
     <SafeAreaView style={styles.contanier}>

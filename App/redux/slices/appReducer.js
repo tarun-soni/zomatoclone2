@@ -8,9 +8,8 @@ const initialState = {
 const appSlice = createSlice({
   name: 'app',
   initialState,
-  reducer: {
+  reducers: {
     setGlobalUser: (state, action) => {
-      console.log(`state`, state)
       state.user = action.payload
     },
     setLoading: (state, action) => {

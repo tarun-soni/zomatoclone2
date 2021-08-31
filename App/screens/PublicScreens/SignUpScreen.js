@@ -7,12 +7,15 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import colors from '../../constants/colors'
 import CustomButton from '../../components/CustomButton'
 import CustomTextInput from '../../components/CustomTextInput'
 import { HOMESCREEN, LOGINSCREEN } from '../../constants/screens'
 import { auth } from '../../config/firebase'
+import { selectLoading, setLoading } from '../../redux/slices/appReducer'
+import Loader from '../../components/Loader'
 
 const styles = StyleSheet.create({
   contanier: {
@@ -32,6 +35,7 @@ const styles = StyleSheet.create({
 })
 
 const SignUpScreen = () => {
+  const dispatch = useDispatch()
   const navigation = useNavigation()
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('u1@example.com')
@@ -39,10 +43,11 @@ const SignUpScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState()
   const [mobile, setMobile] = useState('')
 
+  const isLoading = useSelector(selectLoading)
   const onSignUpPress = async () => {
     try {
-      const res = await auth.createUserWithEmailAndPassword(email, password)
-      console.log(`res`, res)
+      dispatch(setLoading(true))
+      await auth.createUserWithEmailAndPassword(email, password)
 
       console.log('User account created & signed in!')
       navigation.navigate(HOMESCREEN)
@@ -55,8 +60,13 @@ const SignUpScreen = () => {
       if (error.code === 'auth/invalid-email') {
         console.log('That email address is invalid!')
       }
+    } finally {
+      dispatch(setLoading(false))
     }
   }
+
+  if (isLoading) return <Loader />
+
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
@@ -108,7 +118,7 @@ const SignUpScreen = () => {
             </View>
           </View>
         </ScrollView>
-        <CustomButton text="SIGN IN" onPress={onSignUpPress} />
+        <CustomButton text="CREATE ACCOUNT" onPress={onSignUpPress} />
         <TouchableOpacity
           onPress={() => navigation.navigate(LOGINSCREEN)}
           style={{
