@@ -3,14 +3,24 @@ import React, { useEffect, useState } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import auth from '@react-native-firebase/auth'
 import { useDispatch } from 'react-redux'
-import { Text } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HOMESCREEN, LOGINSCREEN } from './constants/screens'
-import { AppRoutes, HomeTabRoutes } from './config/AppRoutes'
+import { Icon } from 'react-native-elements'
+import {
+  DINE_OUT_TAB,
+  HOMESCREEN,
+  LOGINSCREEN,
+  ORDER_TAB,
+  PRO_TAB,
+  USER_PROFILE_TAB,
+} from './constants/screens'
+import { AppRoutes } from './config/AppRoutes'
 import { setGlobalUser, setLoading } from './redux/slices/appReducer'
 import Loader from './components/Loader'
 import OrderScreen from './screens/PrivateScreens/OrderScreen'
 import ProScreen from './screens/PrivateScreens/ProScreen'
+import DineOutScreen from './screens/PrivateScreens/DineOutScreen'
+import UserProfileScreen from './screens/PrivateScreens/UserProfileScreen'
+import colors from './constants/colors'
 
 const Main = () => {
   // Set an initializing state whilst Firebase connects
@@ -37,41 +47,44 @@ const Main = () => {
   }, [])
 
   const MainStack = createNativeStackNavigator()
+  const Tab = createBottomTabNavigator()
 
-  const TabStack = createBottomTabNavigator()
   if (initializing) return <Loader />
 
   if (user) {
     return (
-      <TabStack.Navigator
+      <Tab.Navigator
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+          tabBarIcon: ({ color }) => {
             let iconName
 
-            if (route.name === 'OrderScreen') {
-              iconName = focused
-                ? 'ios-information-circle'
-                : 'ios-information-circle-outline'
-            } else if (route.name === 'ProScreen') {
-              iconName = focused ? 'ios-list-box' : 'ios-list'
+            switch (route.name) {
+              case ORDER_TAB:
+                iconName = 'shopping-basket'
+                break
+              case DINE_OUT_TAB:
+                iconName = 'brunch-dining'
+                break
+              case PRO_TAB:
+                iconName = 'shield'
+                break
+              case USER_PROFILE_TAB:
+                iconName = 'person'
+                break
+              default:
+                break
             }
-
-            // You can return any component that you like here!
-            return <Text>ICON</Text>
+            return <Icon name={iconName} color={color} type="MaterialIcons" />
           },
-          tabBarActiveTintColor: 'tomato',
+          tabBarActiveTintColor: colors.buttonRed,
           tabBarInactiveTintColor: 'gray',
         })}
       >
-        {HomeTabRoutes.map(tab => (
-          <TabStack.Screen
-            key={tab.name}
-            name={tab.name}
-            component={tab.component}
-            options={tab.options}
-          />
-        ))}
-      </TabStack.Navigator>
+        <Tab.Screen name={ORDER_TAB} component={OrderScreen} />
+        <Tab.Screen name={DINE_OUT_TAB} component={DineOutScreen} />
+        <Tab.Screen name={PRO_TAB} component={ProScreen} />
+        <Tab.Screen name={USER_PROFILE_TAB} component={UserProfileScreen} />
+      </Tab.Navigator>
     )
   }
 
