@@ -12,7 +12,7 @@ const AppRoutes = [
   {
     name: LOGINSCREEN,
     component: LoginScreen,
-    options: {},
+    options: { headerShown: false },
   },
   {
     name: SIGNUPSCREEN,
