@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Icon } from 'react-native-elements'
 import {
+  ADMIN_TAB,
   DINE_OUT_TAB,
   LOGINSCREEN,
   ORDER_TAB,
@@ -20,6 +21,7 @@ import ProScreen from './screens/PrivateScreens/ProScreen'
 import DineOutScreen from './screens/PrivateScreens/DineOutScreen'
 import UserProfileScreen from './screens/PrivateScreens/UserProfileScreen'
 import colors from './constants/colors'
+import AdminScreen from './screens/PrivateScreens/AdminScreen'
 
 const Main = () => {
   // Set an initializing state whilst Firebase connects
@@ -70,6 +72,9 @@ const Main = () => {
               case USER_PROFILE_TAB:
                 iconName = 'person'
                 break
+              case ADMIN_TAB:
+                iconName = 'admin-panel-settings'
+                break
               default:
                 break
             }
@@ -83,6 +88,7 @@ const Main = () => {
         <Tab.Screen name={DINE_OUT_TAB} component={DineOutScreen} />
         <Tab.Screen name={PRO_TAB} component={ProScreen} />
         <Tab.Screen name={USER_PROFILE_TAB} component={UserProfileScreen} />
+        <Tab.Screen name={ADMIN_TAB} component={AdminScreen} />
       </Tab.Navigator>
     )
   }

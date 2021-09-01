@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyleSheet, Text, SafeAreaView } from 'react-native'
-import firestore from '@react-native-firebase/firestore'
 import {
   selectGlobalUser,
   selectLoading,
   setLoading,
 } from '../../redux/slices/appReducer'
 import Loader from '../../components/Loader'
-import { auth } from '../../config/firebase'
+import { auth, firestore } from '../../config/firebase'
 import CustomButton from '../../components/CustomButton'
 import colors from '../../constants/colors'
 
@@ -45,7 +44,6 @@ const UserProfileScreen = () => {
         .collection('users')
         .doc('WBjOiEHfwHJUZIM9Tplx')
         .get()
-      console.log(`usersCollection`, usersCollection)
       setUserOne(usersCollection._data)
     }
 
@@ -59,7 +57,7 @@ const UserProfileScreen = () => {
       console.log(`subscriber`, subscriber)
     }
 
-    getUsers()
+    // getUsers()
     // getRealtimeChangesOfUser()
   }, [])
 
