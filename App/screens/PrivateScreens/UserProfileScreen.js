@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyleSheet, Text, SafeAreaView } from 'react-native'
+import firestore from '@react-native-firebase/firestore'
 import {
   selectGlobalUser,
   selectLoading,
@@ -21,7 +22,10 @@ const UserProfileScreen = () => {
   const globalUser = useSelector(selectGlobalUser)
   const isLoading = useSelector(selectLoading)
   const [userInfo, setUserInfo] = useState({})
+
+  const [userOne, setUserOne] = useState(null)
   const dispatch = useDispatch()
+
   const logoutHandler = async () => {
     auth
       .signOut()
@@ -35,6 +39,30 @@ const UserProfileScreen = () => {
     setUserInfo(JSON.parse(globalUser))
   }, [globalUser])
 
+  useEffect(() => {
+    async function getUsers() {
+      const usersCollection = await firestore()
+        .collection('users')
+        .doc('WBjOiEHfwHJUZIM9Tplx')
+        .get()
+      console.log(`usersCollection`, usersCollection)
+      setUserOne(usersCollection._data)
+    }
+
+    async function getRealtimeChangesOfUser() {
+      const subscriber = await firestore()
+        .collection('users')
+        .doc('WBjOiEHfwHJUZIM9Tplx')
+        .onSnapshot(doc => {
+          setUserOne({ name: doc.data().name })
+        })
+      console.log(`subscriber`, subscriber)
+    }
+
+    getUsers()
+    // getRealtimeChangesOfUser()
+  }, [])
+
   if (isLoading) return <Loader />
 
   return (
@@ -44,6 +72,12 @@ const UserProfileScreen = () => {
         {'\t'}
         {userInfo.email}
       </Text>
+      <Text>
+        hello
+        {'\t'}
+        {userOne?.name}
+      </Text>
+      {console.log(`userOne`, userOne)}
       <Text style={styles.text}>Home SCREEN</Text>
       <CustomButton text="LOGOUT" onPress={logoutHandler} />
     </SafeAreaView>
