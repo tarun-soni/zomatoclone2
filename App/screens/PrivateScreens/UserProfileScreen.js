@@ -1,23 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { StyleSheet, Text, SafeAreaView } from 'react-native'
-import { selectGlobalUser, selectLoading } from '../../redux/slices/appReducer'
+import {
+  selectGlobalUser,
+  selectLoading,
+  setLoading,
+} from '../../redux/slices/appReducer'
 import Loader from '../../components/Loader'
 import { auth } from '../../config/firebase'
 import CustomButton from '../../components/CustomButton'
+import colors from '../../constants/colors'
 
-const styles = StyleSheet.create({})
-
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: 'Nunito-Regular',
+    color: colors.zomatoLogoRed,
+  },
+})
 const UserProfileScreen = () => {
   const globalUser = useSelector(selectGlobalUser)
   const isLoading = useSelector(selectLoading)
   const [userInfo, setUserInfo] = useState({})
-
+  const dispatch = useDispatch()
   const logoutHandler = async () => {
-    auth.signOut().then(() => {
-      // navigation.navigate(LOGINSCREEN)
-      console.log('User signed out!')
-    })
+    auth
+      .signOut()
+      .then(() => {
+        console.log('User signed out!')
+      })
+      .then(() => dispatch(setLoading(true)))
   }
 
   useEffect(() => {

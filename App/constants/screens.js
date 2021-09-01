@@ -1,4 +1,3 @@
-export const HOMESCREEN = 'HomeScreen'
 export const LOGINSCREEN = 'LoginScreen'
 export const SIGNUPSCREEN = 'SignUpScreen'
 export const ORDER_TAB = 'Order Now'

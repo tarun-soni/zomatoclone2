@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native'
 import colors from '../../constants/colors'
 import CustomButton from '../../components/CustomButton'
 import CustomTextInput from '../../components/CustomTextInput'
-import { HOMESCREEN, LOGINSCREEN } from '../../constants/screens'
+import { LOGINSCREEN } from '../../constants/screens'
 import { auth } from '../../config/firebase'
 import { selectLoading, setLoading } from '../../redux/slices/appReducer'
 import Loader from '../../components/Loader'
@@ -50,7 +50,6 @@ const SignUpScreen = () => {
       await auth.createUserWithEmailAndPassword(email, password)
 
       console.log('User account created & signed in!')
-      navigation.navigate(HOMESCREEN)
     } catch (error) {
       console.log(`error`, error)
       if (error.code === 'auth/email-already-in-use') {

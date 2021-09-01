@@ -1,14 +1,8 @@
-import { LOGINSCREEN, HOMESCREEN, SIGNUPSCREEN } from '../constants/screens'
-import HomeScreen from '../screens/PrivateScreens/HomeScreen'
+import { LOGINSCREEN, SIGNUPSCREEN } from '../constants/screens'
 import LoginScreen from '../screens/PublicScreens/LoginScreen'
 import SignUpScreen from '../screens/PublicScreens/SignUpScreen'
 
 const AppRoutes = [
-  {
-    name: HOMESCREEN,
-    component: HomeScreen,
-    options: { headerShown: false },
-  },
   {
     name: LOGINSCREEN,
     component: LoginScreen,

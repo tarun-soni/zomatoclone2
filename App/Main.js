@@ -7,7 +7,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Icon } from 'react-native-elements'
 import {
   DINE_OUT_TAB,
-  HOMESCREEN,
   LOGINSCREEN,
   ORDER_TAB,
   PRO_TAB,
@@ -89,7 +88,7 @@ const Main = () => {
   }
 
   return (
-    <MainStack.Navigator initialRouteName={user ? HOMESCREEN : LOGINSCREEN}>
+    <MainStack.Navigator initialRouteName={LOGINSCREEN}>
       {AppRoutes.map(route => (
         <MainStack.Screen
           key={route.name}

@@ -17,7 +17,7 @@ import colors from '../../constants/colors'
 import Logo from '../../components/Logo'
 import CustomTextInput from '../../components/CustomTextInput'
 import CustomButton from '../../components/CustomButton'
-import { HOMESCREEN, SIGNUPSCREEN } from '../../constants/screens'
+import { SIGNUPSCREEN } from '../../constants/screens'
 import { auth } from '../../config/firebase'
 import { selectLoading, setLoading } from '../../redux/slices/appReducer'
 import Loader from '../../components/Loader'
@@ -53,7 +53,6 @@ const LoginScreen = ({ navigation }) => {
       console.log(`res`, res)
 
       console.log('User signed in!')
-      navigation.navigate(HOMESCREEN)
     } catch (error) {
       console.log(`error`, error)
       if (error.code === 'auth/email-already-in-use') {
