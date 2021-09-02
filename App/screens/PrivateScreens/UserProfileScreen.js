@@ -20,64 +20,84 @@ const styles = StyleSheet.create({
 const UserProfileScreen = () => {
   const globalUser = useSelector(selectGlobalUser)
   const isLoading = useSelector(selectLoading)
-  const [userInfo, setUserInfo] = useState({})
-
-  const [userOne, setUserOne] = useState(null)
+  const [loggedInUserId, setLoggedInUserId] = useState({})
+  const [isUserInfoLoading, setIsUserInfoLoading] = useState(false)
+  const [userInfo, setUserInfo] = useState(null)
   const dispatch = useDispatch()
 
   const logoutHandler = async () => {
     auth
       .signOut()
+
+      .then(() => dispatch(setLoading(false)))
       .then(() => {
         console.log('User signed out!')
       })
-      .then(() => dispatch(setLoading(true)))
   }
 
   useEffect(() => {
-    setUserInfo(JSON.parse(globalUser))
+    setLoggedInUserId(JSON.parse(globalUser))
   }, [globalUser])
 
   useEffect(() => {
     async function getUsers() {
-      const usersCollection = await firestore()
-        .collection('users')
-        .doc('WBjOiEHfwHJUZIM9Tplx')
-        .get()
-      setUserOne(usersCollection._data)
+      try {
+        setIsUserInfoLoading(true)
+        if (loggedInUserId.uid) {
+          const usersCollection = await firestore()
+            .collection('users')
+            .doc(loggedInUserId.uid)
+            .get()
+          setUserInfo(usersCollection._data)
+        }
+      } catch (error) {
+        console.log(`error`, error)
+      } finally {
+        setIsUserInfoLoading(false)
+      }
     }
 
-    async function getRealtimeChangesOfUser() {
-      const subscriber = await firestore()
-        .collection('users')
-        .doc('WBjOiEHfwHJUZIM9Tplx')
-        .onSnapshot(doc => {
-          setUserOne({ name: doc.data().name })
-        })
-      console.log(`subscriber`, subscriber)
-    }
+    // async function getRealtimeChangesOfUser() {
+    //   const subscriber = await firestore()
+    //     .collection('users')
+    //     .doc(loggedInUserId.uid)
+    //     .onSnapshot(doc => {
+    //       setUserInfo({ name: doc.data().name })
+    //     })
+    //   console.log(`subscriber`, subscriber)
+    // }
 
-    // getUsers()
+    getUsers()
     // getRealtimeChangesOfUser()
-  }, [])
+  }, [loggedInUserId])
 
   if (isLoading) return <Loader />
 
   return (
-    <SafeAreaView>
-      <Text>
-        hello
-        {'\t'}
-        {userInfo.email}
-      </Text>
-      <Text>
-        hello
-        {'\t'}
-        {userOne?.name}
-      </Text>
-      {console.log(`userOne`, userOne)}
-      <Text style={styles.text}>Home SCREEN</Text>
-      <CustomButton text="LOGOUT" onPress={logoutHandler} />
+    <SafeAreaView style={{ margin: 10 }}>
+      {isUserInfoLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <Text>
+            Email
+            {'\t'}
+            {userInfo?.email}
+          </Text>
+          <Text>
+            Display Name
+            {'\t'}
+            {userInfo?.displayName}
+          </Text>
+          <Text>
+            Phone Number
+            {'\t'}
+            {userInfo?.phoneNumber}
+          </Text>
+          <Text style={styles.text}>Home SCREEN</Text>
+          <CustomButton text="LOGOUT" onPress={logoutHandler} />
+        </>
+      )}
     </SafeAreaView>
   )
 }

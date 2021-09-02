@@ -31,7 +31,7 @@ const Main = () => {
 
   // Handle user state changes
   useEffect(() => {
-    function onAuthStateChanged(_user = {}) {
+    const onAuthStateChanged = (_user = {}) => {
       setUser(_user)
       dispatch(setLoading(false))
       if (_user) dispatch(setGlobalUser(JSON.stringify(_user)))

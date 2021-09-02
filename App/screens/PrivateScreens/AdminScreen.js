@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
 })
 
 const AdminScreen = () => {
-  const [addRestoInput, setAddRestoInput] = useState()
+  const [addRestoInput, setAddRestoInput] = useState('')
   const [restos, setRestos] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
   const isLoading = useSelector(selectLoading)

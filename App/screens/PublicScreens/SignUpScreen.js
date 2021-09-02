@@ -13,7 +13,7 @@ import colors from '../../constants/colors'
 import CustomButton from '../../components/CustomButton'
 import CustomTextInput from '../../components/CustomTextInput'
 import { LOGINSCREEN } from '../../constants/screens'
-import { auth } from '../../config/firebase'
+import { auth, firestore } from '../../config/firebase'
 import { selectLoading, setLoading } from '../../redux/slices/appReducer'
 import Loader from '../../components/Loader'
 
@@ -37,19 +37,26 @@ const styles = StyleSheet.create({
 const SignUpScreen = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const [fullName, setFullName] = useState('')
+  const [fullName, setFullName] = useState('User 1')
   const [email, setEmail] = useState('u1@example.com')
-  const [password, setPassword] = useState('1212')
-  const [confirmPassword, setConfirmPassword] = useState()
-  const [mobile, setMobile] = useState('')
+  const [password, setPassword] = useState('789456789456')
+  const [confirmPassword, setConfirmPassword] = useState('789456789456')
+  const [mobile, setMobile] = useState('9999999999')
 
   const isLoading = useSelector(selectLoading)
   const onSignUpPress = async () => {
     try {
       dispatch(setLoading(true))
-      await auth.createUserWithEmailAndPassword(email, password)
-
-      console.log('User account created & signed in!')
+      await auth
+        .createUserWithEmailAndPassword(email, password)
+        .then(cred => {
+          return firestore().collection('users').doc(cred.user.uid).set({
+            displayName: fullName,
+            email,
+            phoneNumber: mobile,
+          })
+        })
+        .then(() => console.log('User account created & signed in!'))
     } catch (error) {
       console.log(`error`, error)
       if (error.code === 'auth/email-already-in-use') {
