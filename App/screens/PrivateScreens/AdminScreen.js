@@ -1,6 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native'
+import {
+  FlatList,
+  Image,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import { Overlay } from 'react-native-elements'
+import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { firestore } from '../../config/firebase'
 import colors from '../../constants/colors'
 import CustomButton from '../../components/CustomButton'
@@ -8,6 +18,7 @@ import { wait } from '../../utils/wait'
 import { selectLoading, setLoading } from '../../redux/slices/appReducer'
 import Loader from '../../components/Loader'
 import CustomTextInput from '../../components/CustomTextInput'
+import EditRestoOverlay from '../../components/EditRestoOverlay'
 
 const styles = StyleSheet.create({
   cards_container: {
@@ -25,18 +36,27 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 8,
     elevation: 3,
-    justifyContent: 'center',
+    // justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    padding: 20,
 
     shadowColor: '#333',
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
+
+    flexDirection: 'row',
   },
   text: {
     fontFamily: 'Nunito-Regular',
     color: colors.zomatoLogoRed,
     fontSize: 20,
+  },
+  card_image: {
+    width: 40,
+    height: 40,
+    resizeMode: 'contain',
   },
 })
 
@@ -45,9 +65,12 @@ const AdminScreen = () => {
   const [restos, setRestos] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
   const isLoading = useSelector(selectLoading)
+
+  const [editRestoOverlay, setEditRestoOverlay] = useState(false)
+  const [restoToEdit, setRestoToEdit] = useState(null)
   const dispatch = useDispatch()
 
-  async function getRestos() {
+  const getRestos = useCallback(async () => {
     try {
       dispatch(setLoading(true))
       const restosCollection = await firestore().collection('restos').get()
@@ -57,13 +80,13 @@ const AdminScreen = () => {
     } finally {
       dispatch(setLoading(false))
     }
-  }
+  }, [dispatch])
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true)
     wait(1000).then(() => setIsRefreshing(false))
     getRestos()
-  }, [])
+  }, [getRestos])
 
   const onAddRestoPress = async () => {
     await firestore()
@@ -74,9 +97,14 @@ const AdminScreen = () => {
       .then(() => onRefresh())
   }
 
+  const onEditRestoPress = toEdit => {
+    setRestoToEdit(toEdit)
+    setEditRestoOverlay(true)
+  }
+
   useEffect(() => {
     getRestos()
-  }, [])
+  }, [getRestos])
 
   if (isLoading) return <Loader />
 
@@ -92,7 +120,7 @@ const AdminScreen = () => {
       <FlatList
         data={restos}
         renderItem={({ item }) => {
-          return <Card resto={item} />
+          return <Card resto={item} onEditRestoPress={onEditRestoPress} />
         }}
         keyExtractor={item => item.id}
         onRefresh={() => setIsRefreshing(true)}
@@ -113,16 +141,30 @@ const AdminScreen = () => {
           isDisabled={addRestoInput.length <= 0}
         />
       </View>
+
+      <Overlay isVisible={editRestoOverlay}>
+        <EditRestoOverlay
+          setEditRestoOverlay={setEditRestoOverlay}
+          restoToEdit={restoToEdit}
+        />
+      </Overlay>
     </View>
   )
 }
 
 export default AdminScreen
 
-const Card = ({ resto }) => {
+const Card = ({ resto, onEditRestoPress }) => {
   return (
     <View style={[styles.card]}>
+      <Image
+        style={styles.card_image}
+        source={{ uri: resto?._data.resto_image_url }}
+      />
       <Text style={styles.text}>{resto?._data?.resto_name}</Text>
+      <TouchableOpacity onPress={() => onEditRestoPress(resto)}>
+        <Icon type="material" name="edit" color="gray" />
+      </TouchableOpacity>
     </View>
   )
 }
