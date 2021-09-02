@@ -13,14 +13,26 @@ const styles = StyleSheet.create({
   },
 })
 
-const CustomTextInput = ({ inputValue, setInputValue, placeholderText }) => {
+const CustomTextInput = ({
+  inputValue,
+  setInputValue,
+  placeholderText,
+  isEditable,
+}) => {
   return (
     <TextInput
       value={inputValue}
       onChangeText={text => setInputValue(text)}
       placeholder={placeholderText}
+      placeholderTextColor="gray"
       style={styles.input}
+      editable={isEditable}
     />
   )
 }
+
+CustomTextInput.defaultProps = {
+  isEditable: true,
+}
+
 export default CustomTextInput

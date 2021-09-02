@@ -19,14 +19,28 @@ const styles = StyleSheet.create({
     backgroundColor: colors.buttonRed,
     margin: 40,
   },
+  disabled: {
+    backgroundColor: 'gray',
+  },
 })
 
-const CustomButton = ({ text, onPress }) => {
+const CustomButton = ({ text, onPress, isDisabled }) => {
+  const buttonStyles = [styles.btn_container]
+  if (isDisabled) buttonStyles.push(styles.disabled)
+
   return (
-    <TouchableOpacity style={styles.btn_container} onPress={onPress}>
+    <TouchableOpacity
+      style={buttonStyles}
+      onPress={onPress}
+      disabled={isDisabled}
+    >
       <Text style={styles.btn_text}>{text}</Text>
     </TouchableOpacity>
   )
+}
+
+CustomButton.defaultProps = {
+  isDisabled: false,
 }
 
 export default CustomButton

@@ -1,9 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { firestore } from '../../config/firebase'
 import colors from '../../constants/colors'
 import CustomButton from '../../components/CustomButton'
 import { wait } from '../../utils/wait'
+import { selectLoading, setLoading } from '../../redux/slices/appReducer'
+import Loader from '../../components/Loader'
+import CustomTextInput from '../../components/CustomTextInput'
 
 const styles = StyleSheet.create({
   cards_container: {
@@ -37,19 +41,22 @@ const styles = StyleSheet.create({
 })
 
 const AdminScreen = () => {
+  const [addRestoInput, setAddRestoInput] = useState()
   const [restos, setRestos] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
-
-  const onAddRestoPress = async () => {
-    const restoName = 'random resto'
-    await firestore().collection('restos').add({
-      resto_name: restoName,
-    })
-  }
+  const isLoading = useSelector(selectLoading)
+  const dispatch = useDispatch()
 
   async function getRestos() {
-    const restosCollection = await firestore().collection('restos').get()
-    setRestos(restosCollection._docs)
+    try {
+      dispatch(setLoading(true))
+      const restosCollection = await firestore().collection('restos').get()
+      setRestos(restosCollection._docs)
+    } catch (error) {
+      console.log(`error`, error)
+    } finally {
+      dispatch(setLoading(false))
+    }
   }
 
   const onRefresh = useCallback(() => {
@@ -58,9 +65,20 @@ const AdminScreen = () => {
     getRestos()
   }, [])
 
+  const onAddRestoPress = async () => {
+    await firestore()
+      .collection('restos')
+      .add({
+        resto_name: addRestoInput,
+      })
+      .then(() => onRefresh())
+  }
+
   useEffect(() => {
     getRestos()
   }, [])
+
+  if (isLoading) return <Loader />
 
   return (
     <View style={styles.cards_container}>
@@ -84,7 +102,16 @@ const AdminScreen = () => {
         }
       />
       <View style={{ width: '90%' }}>
-        <CustomButton text="Add Resto" onPress={onAddRestoPress} />
+        <CustomTextInput
+          inputValue={addRestoInput}
+          setInputValue={setAddRestoInput}
+          placeholderText="Add a new Resto"
+        />
+        <CustomButton
+          text="Add Resto"
+          onPress={onAddRestoPress}
+          isDisabled={addRestoInput.length <= 0}
+        />
       </View>
     </View>
   )
