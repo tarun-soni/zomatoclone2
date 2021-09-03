@@ -9,15 +9,12 @@ import {
   View,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { Overlay } from 'react-native-elements'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { firestore } from '../../config/firebase'
 import colors from '../../constants/colors'
-import CustomButton from '../../components/CustomButton'
 import { wait } from '../../utils/wait'
 import {
   selectLoading,
-  selectRestoToEdit,
   setLoading,
   setStoreRestoToEdit,
 } from '../../redux/slices/appReducer'
@@ -65,7 +62,6 @@ const styles = StyleSheet.create({
 })
 
 const AdminScreen = ({ navigation }) => {
-  const restoToEditFromStore = useSelector(selectRestoToEdit)
   const [restos, setRestos] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
   const isLoading = useSelector(selectLoading)
@@ -88,15 +84,6 @@ const AdminScreen = ({ navigation }) => {
     wait(1000).then(() => setIsRefreshing(false))
     getRestos()
   }, [getRestos])
-
-  const onAddRestoPress = async () => {
-    await firestore()
-      .collection('restos')
-      .add({
-        resto_name: restoToEditFromStore,
-      })
-      .then(() => onRefresh())
-  }
 
   const onEditRestoPress = toEdit => {
     dispatch(
