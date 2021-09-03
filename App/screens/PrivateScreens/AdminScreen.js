@@ -15,10 +15,14 @@ import { firestore } from '../../config/firebase'
 import colors from '../../constants/colors'
 import CustomButton from '../../components/CustomButton'
 import { wait } from '../../utils/wait'
-import { selectLoading, setLoading } from '../../redux/slices/appReducer'
+import {
+  selectLoading,
+  selectRestoToEdit,
+  setLoading,
+  setStoreRestoToEdit,
+} from '../../redux/slices/appReducer'
 import Loader from '../../components/Loader'
-import CustomTextInput from '../../components/CustomTextInput'
-import EditRestoOverlay from '../../components/EditRestoOverlay'
+import { EDIT_RESTO_SCREEN } from '../../constants/screens'
 
 const styles = StyleSheet.create({
   cards_container: {
@@ -60,14 +64,11 @@ const styles = StyleSheet.create({
   },
 })
 
-const AdminScreen = () => {
-  const [addRestoInput, setAddRestoInput] = useState('')
+const AdminScreen = ({ navigation }) => {
+  const restoToEditFromStore = useSelector(selectRestoToEdit)
   const [restos, setRestos] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
   const isLoading = useSelector(selectLoading)
-
-  const [editRestoOverlay, setEditRestoOverlay] = useState(false)
-  const [restoToEdit, setRestoToEdit] = useState(null)
   const dispatch = useDispatch()
 
   const getRestos = useCallback(async () => {
@@ -92,14 +93,19 @@ const AdminScreen = () => {
     await firestore()
       .collection('restos')
       .add({
-        resto_name: addRestoInput,
+        resto_name: restoToEditFromStore,
       })
       .then(() => onRefresh())
   }
 
   const onEditRestoPress = toEdit => {
-    setRestoToEdit(toEdit)
-    setEditRestoOverlay(true)
+    dispatch(
+      setStoreRestoToEdit({
+        id: toEdit.id,
+        data: toEdit._data,
+      }),
+    )
+    navigation.navigate(EDIT_RESTO_SCREEN)
   }
 
   useEffect(() => {
@@ -110,13 +116,6 @@ const AdminScreen = () => {
 
   return (
     <View style={styles.cards_container}>
-      {/* {restos.length >= 1 && (
-        <View >
-          {restos.map(resto => (
-            <Card key={resto.id} resto={resto} />
-          ))}
-        </View>
-      )} */}
       <FlatList
         data={restos}
         renderItem={({ item }) => {
@@ -129,25 +128,13 @@ const AdminScreen = () => {
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
       />
-      <View style={{ width: '90%' }}>
-        <CustomTextInput
-          inputValue={addRestoInput}
-          setInputValue={setAddRestoInput}
-          placeholderText="Add a new Resto"
-        />
-        <CustomButton
-          text="Add Resto"
-          onPress={onAddRestoPress}
-          isDisabled={addRestoInput.length <= 0}
-        />
-      </View>
 
-      <Overlay isVisible={editRestoOverlay}>
+      {/* <Overlay isVisible={editRestoOverlay}>
         <EditRestoOverlay
           setEditRestoOverlay={setEditRestoOverlay}
           restoToEdit={restoToEdit}
         />
-      </Overlay>
+      </Overlay> */}
     </View>
   )
 }

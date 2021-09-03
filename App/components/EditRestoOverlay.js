@@ -35,7 +35,7 @@ const EditRestoOverlay = ({ restoToEdit, setEditRestoOverlay }) => {
       <Image
         style={styles.card_image}
         source={{
-          uri: restoToEdit?._data.resto_image_url,
+          uri: restoToEdit?.data.resto_image_url,
         }}
       />
       <Text style={styles.text}>
