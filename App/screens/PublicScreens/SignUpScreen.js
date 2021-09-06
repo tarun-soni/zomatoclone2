@@ -7,12 +7,12 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native'
+import { Overlay } from 'react-native-elements'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
 import colors from '../../constants/colors'
 import CustomButton from '../../components/CustomButton'
 import CustomTextInput from '../../components/CustomTextInput'
-import { LOGINSCREEN } from '../../constants/screens'
+import { HOMESCREEN, LOGINSCREEN } from '../../constants/screens'
 import { auth, firestore } from '../../config/firebase'
 import { selectLoading, setLoading } from '../../redux/slices/appReducer'
 import Loader from '../../components/Loader'
@@ -34,37 +34,48 @@ const styles = StyleSheet.create({
   },
 })
 
-const SignUpScreen = () => {
+const SignUpScreen = ({ navigation }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const [fullName, setFullName] = useState('User 1')
   const [email, setEmail] = useState('u1@example.com')
   const [password, setPassword] = useState('789456789456')
   const [confirmPassword, setConfirmPassword] = useState('789456789456')
   const [mobile, setMobile] = useState('9999999999')
 
+  const [errorOverlay, setErrorOverlay] = useState(false)
+
   const isLoading = useSelector(selectLoading)
   const onSignUpPress = async () => {
     try {
       dispatch(setLoading(true))
-      await auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(cred => {
-          return firestore().collection('users').doc(cred.user.uid).set({
-            displayName: fullName,
-            email,
-            phoneNumber: mobile,
-          })
+
+      const response = await auth.createUserWithEmailAndPassword(
+        email,
+        password,
+      )
+
+      console.log(`response`, response)
+
+      await firestore()
+        .collection('users')
+        .doc(response.user.uid)
+        .set({
+          displayName: fullName,
+          email,
+          phoneNumber: mobile,
+          isAdmin: false,
         })
-        .then(() => console.log('User account created & signed in!'))
+        .then(() => navigation.replace(HOMESCREEN))
     } catch (error) {
       console.log(`error`, error)
       if (error.code === 'auth/email-already-in-use') {
         console.log('That email address is already in use!')
+        setErrorOverlay(true)
       }
 
       if (error.code === 'auth/invalid-email') {
         console.log('That email address is invalid!')
+        setErrorOverlay(true)
       }
     } finally {
       dispatch(setLoading(false))
@@ -142,6 +153,16 @@ const SignUpScreen = () => {
           </Text>
         </TouchableOpacity>
       </ScrollView>
+      {errorOverlay && (
+        <Overlay isVisible={errorOverlay}>
+          <Text>Some content</Text>
+          <TouchableOpacity onPress={() => setErrorOverlay(false)}>
+            {/*  TODO - add proper error message  */}
+
+            <Text>ERROR in sign in Click to close</Text>
+          </TouchableOpacity>
+        </Overlay>
+      )}
     </SafeAreaView>
   )
 }

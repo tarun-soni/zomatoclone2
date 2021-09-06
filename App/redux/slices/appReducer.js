@@ -26,12 +26,21 @@ const appSlice = createSlice({
     setStoreRestoToEdit: (state, action) => {
       state.restoToEdit = action.payload
     },
+
+    getRestos: () => {
+      // return restos
+    },
   },
 })
 
 // actions
-export const { setIsLoggedIn, setGlobalUser, setLoading, setStoreRestoToEdit } =
-  appSlice.actions
+export const {
+  setIsLoggedIn,
+  setGlobalUser,
+  setLoading,
+  setStoreRestoToEdit,
+  getRestos,
+} = appSlice.actions
 // selector
 
 export const selectIsLoggedIn = state => state.app.isLoggedIn
