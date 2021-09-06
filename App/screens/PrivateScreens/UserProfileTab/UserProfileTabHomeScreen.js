@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     color: colors.zomatoLogoRed,
   },
 })
-const UserProfileTab = ({ navigation }) => {
+const UserProfileTabHomeScreen = ({ navigation }) => {
   const globalUser = useSelector(selectGlobalUser)
   const isLoading = useSelector(selectLoading)
   const [loggedInUserId, setLoggedInUserId] = useState({})
@@ -106,4 +106,4 @@ const UserProfileTab = ({ navigation }) => {
   )
 }
 
-export default UserProfileTab
+export default UserProfileTabHomeScreen
