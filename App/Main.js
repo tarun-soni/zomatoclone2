@@ -5,7 +5,7 @@ import auth from '@react-native-firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { HOMESCREEN, LOGINSCREEN } from './constants/screens'
-import { AppRoutes } from './config/AppRoutes'
+import { AppRoutes } from './config/routes/AppRoutes'
 import {
   selectIsLoggedIn,
   setGlobalUser,

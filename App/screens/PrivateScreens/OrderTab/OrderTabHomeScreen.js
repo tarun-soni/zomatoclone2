@@ -1,12 +1,12 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const DineOutScreen = () => {
+const OrderTabHomeScreen = () => {
   return (
     <View>
-      <Text>Dine OUT</Text>
+      <Text>ORDER TAB HOME SCREEN</Text>
     </View>
   )
 }
 
-export default DineOutScreen
+export default OrderTabHomeScreen

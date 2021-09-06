@@ -10,16 +10,16 @@ import {
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
-import { firestore } from '../../config/firebase'
-import colors from '../../constants/colors'
-import { wait } from '../../utils/wait'
+import { firestore } from '../../../config/firebase'
+import colors from '../../../constants/colors'
+import { wait } from '../../../utils/wait'
 import {
   selectLoading,
   setLoading,
   setStoreRestoToEdit,
-} from '../../redux/slices/appReducer'
-import Loader from '../../components/Loader'
-import { EDIT_RESTO_SCREEN } from '../../constants/screens'
+} from '../../../redux/slices/appReducer'
+import Loader from '../../../components/Loader'
+import { EDIT_RESTO_SCREEN } from '../../../constants/screens'
 
 const styles = StyleSheet.create({
   cards_container: {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const AdminScreen = ({ navigation }) => {
+const AdminTabHomeScreen = ({ navigation }) => {
   const [restos, setRestos] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false)
   const isLoading = useSelector(selectLoading)
@@ -126,7 +126,7 @@ const AdminScreen = ({ navigation }) => {
   )
 }
 
-export default AdminScreen
+export default AdminTabHomeScreen
 
 const Card = ({ resto, onEditRestoPress }) => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import { SafeAreaView, Text } from 'react-native'
 
-const ProScreen = () => {
+const ProTab = () => {
   return (
     <SafeAreaView>
       <Text>Pro SCREEN</Text>
@@ -9,4 +9,4 @@ const ProScreen = () => {
   )
 }
 
-export default ProScreen
+export default ProTab

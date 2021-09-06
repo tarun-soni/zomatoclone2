@@ -6,12 +6,12 @@ import {
   selectLoading,
   setIsLoggedIn,
   setLoading,
-} from '../../redux/slices/appReducer'
-import Loader from '../../components/Loader'
-import { auth, firestore } from '../../config/firebase'
-import CustomButton from '../../components/CustomButton'
-import colors from '../../constants/colors'
-import { LOGINSCREEN } from '../../constants/screens'
+} from '../../../redux/slices/appReducer'
+import Loader from '../../../components/Loader'
+import { auth, firestore } from '../../../config/firebase'
+import CustomButton from '../../../components/CustomButton'
+import colors from '../../../constants/colors'
+import { LOGINSCREEN } from '../../../constants/screens'
 
 const styles = StyleSheet.create({
   text: {
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     color: colors.zomatoLogoRed,
   },
 })
-const UserProfileScreen = ({ navigation }) => {
+const UserProfileTab = ({ navigation }) => {
   const globalUser = useSelector(selectGlobalUser)
   const isLoading = useSelector(selectLoading)
   const [loggedInUserId, setLoggedInUserId] = useState({})
@@ -106,4 +106,4 @@ const UserProfileScreen = ({ navigation }) => {
   )
 }
 
-export default UserProfileScreen
+export default UserProfileTab

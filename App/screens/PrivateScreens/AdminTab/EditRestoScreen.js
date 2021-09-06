@@ -12,10 +12,10 @@ import {
 } from 'react-native'
 import { useSelector } from 'react-redux'
 import storage from '@react-native-firebase/storage'
-import { selectRestoToEdit } from '../../redux/slices/appReducer'
-import CustomButton from '../../components/CustomButton'
-import CustomTextInput from '../../components/CustomTextInput'
-import { firestore } from '../../config/firebase'
+import { selectRestoToEdit } from '../../../redux/slices/appReducer'
+import CustomButton from '../../../components/CustomButton'
+import CustomTextInput from '../../../components/CustomTextInput'
+import { firestore } from '../../../config/firebase'
 
 const styles = StyleSheet.create({
   card_image: {
