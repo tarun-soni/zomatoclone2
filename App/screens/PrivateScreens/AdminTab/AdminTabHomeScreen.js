@@ -10,12 +10,11 @@ import {
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
-import { firestore } from '../../../config/firebase'
 import colors from '../../../constants/colors'
 import { wait } from '../../../utils/wait'
 import {
+  getRestos,
   selectLoading,
-  setLoading,
   setStoreRestoToEdit,
 } from '../../../redux/slices/appReducer'
 import Loader from '../../../components/Loader'
@@ -67,23 +66,30 @@ const AdminTabHomeScreen = ({ navigation }) => {
   const isLoading = useSelector(selectLoading)
   const dispatch = useDispatch()
 
-  const getRestos = useCallback(async () => {
-    try {
-      dispatch(setLoading(true))
-      const restosCollection = await firestore().collection('restos').get()
-      setRestos(restosCollection._docs)
-    } catch (error) {
-      console.log(`error`, error)
-    } finally {
-      dispatch(setLoading(false))
-    }
+  // const getRestos = useCallback(async () => {
+  //   try {
+  //     dispatch(setLoading(true))
+  //     const restosCollection = await firestore().collection('restos').get()
+  //     setRestos(restosCollection._docs)
+  //   } catch (error) {
+  //     console.log(`error`, error)
+  //   } finally {
+  //     dispatch(setLoading(false))
+  //   }
+  // }, [dispatch])
+
+  const fetchRestos = useCallback(async () => {
+    const res = await dispatch(getRestos())
+    if (res._docs) setRestos(res._docs)
+    else setRestos([])
+    console.log(`res`, res)
   }, [dispatch])
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true)
     wait(1000).then(() => setIsRefreshing(false))
-    getRestos()
-  }, [getRestos])
+    fetchRestos()
+  }, [fetchRestos])
 
   const onEditRestoPress = toEdit => {
     dispatch(
@@ -96,8 +102,8 @@ const AdminTabHomeScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-    getRestos()
-  }, [getRestos])
+    fetchRestos()
+  }, [fetchRestos])
 
   if (isLoading) return <Loader />
 

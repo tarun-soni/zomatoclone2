@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Alert } from 'react-native'
+import { firestore } from '../../config/firebase'
 
 const initialState = {
   isLoggedIn: false,
@@ -26,21 +28,12 @@ const appSlice = createSlice({
     setStoreRestoToEdit: (state, action) => {
       state.restoToEdit = action.payload
     },
-
-    getRestos: () => {
-      // return restos
-    },
   },
 })
 
 // actions
-export const {
-  setIsLoggedIn,
-  setGlobalUser,
-  setLoading,
-  setStoreRestoToEdit,
-  getRestos,
-} = appSlice.actions
+export const { setIsLoggedIn, setGlobalUser, setLoading, setStoreRestoToEdit } =
+  appSlice.actions
 // selector
 
 export const selectIsLoggedIn = state => state.app.isLoggedIn
@@ -49,3 +42,17 @@ export const selectLoading = state => state.app.loading
 export const selectRestoToEdit = state => state.app.restoToEdit
 
 export default appSlice.reducer
+
+export const getRestos = () => async dispatch => {
+  try {
+    dispatch(setLoading(true))
+    const restosCollection = await firestore().collection('restos').get()
+    return restosCollection
+  } catch (error) {
+    console.log(`error`, error)
+    Alert.alert(error.message)
+    return error
+  } finally {
+    dispatch(setLoading(false))
+  }
+}
