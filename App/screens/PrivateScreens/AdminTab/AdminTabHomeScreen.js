@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import {
+  Button,
   FlatList,
   Image,
   RefreshControl,
@@ -13,12 +14,16 @@ import { Icon } from 'react-native-elements/dist/icons/Icon'
 import colors from '../../../constants/colors'
 import { wait } from '../../../utils/wait'
 import {
-  getRestos,
   selectLoading,
   setStoreRestoToEdit,
 } from '../../../redux/slices/appReducer'
 import Loader from '../../../components/Loader'
 import { EDIT_RESTO_SCREEN } from '../../../constants/screens'
+import {
+  getRestos,
+  selectAllRestos,
+  selectGetRestoStatus,
+} from '../../../redux/slices/restoReducer'
 
 const styles = StyleSheet.create({
   cards_container: {
@@ -65,50 +70,38 @@ const AdminTabHomeScreen = ({ navigation }) => {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const isLoading = useSelector(selectLoading)
   const dispatch = useDispatch()
-
-  // const getRestos = useCallback(async () => {
-  //   try {
-  //     dispatch(setLoading(true))
-  //     const restosCollection = await firestore().collection('restos').get()
-  //     setRestos(restosCollection._docs)
-  //   } catch (error) {
-  //     console.log(`error`, error)
-  //   } finally {
-  //     dispatch(setLoading(false))
-  //   }
-  // }, [dispatch])
-
-  const fetchRestos = useCallback(async () => {
-    const res = await dispatch(getRestos())
-    if (res._docs) setRestos(res._docs)
-    else setRestos([])
-    console.log(`res`, res)
-  }, [dispatch])
+  const allRestos = useSelector(selectAllRestos)
+  const getRestoStatus = useSelector(selectGetRestoStatus)
 
   const onRefresh = useCallback(() => {
     setIsRefreshing(true)
     wait(1000).then(() => setIsRefreshing(false))
-    fetchRestos()
-  }, [fetchRestos])
+    dispatch(getRestos())
+  }, [dispatch])
 
   const onEditRestoPress = toEdit => {
     dispatch(
       setStoreRestoToEdit({
         id: toEdit.id,
-        data: toEdit._data,
+        data: toEdit.data,
       }),
     )
     navigation.navigate(EDIT_RESTO_SCREEN)
   }
 
   useEffect(() => {
-    fetchRestos()
-  }, [fetchRestos])
+    dispatch(getRestos())
+  }, [dispatch])
+
+  useEffect(() => {
+    setRestos(allRestos)
+  }, [getRestoStatus, allRestos])
 
   if (isLoading) return <Loader />
 
   return (
     <View style={styles.cards_container}>
+      <Button title="fetch" onPress={onRefresh} />
       <FlatList
         data={restos}
         renderItem={({ item }) => {
@@ -139,9 +132,9 @@ const Card = ({ resto, onEditRestoPress }) => {
     <View style={[styles.card]}>
       <Image
         style={styles.card_image}
-        source={{ uri: resto?._data.resto_image_url }}
+        source={{ uri: resto?.data?.resto_image_url }}
       />
-      <Text style={styles.text}>{resto?._data?.resto_name}</Text>
+      <Text style={styles.text}>{resto?.data?.resto_name}</Text>
       <TouchableOpacity onPress={() => onEditRestoPress(resto)}>
         <Icon type="material" name="edit" color="gray" />
       </TouchableOpacity>
