@@ -7,10 +7,8 @@ const initialState = {
   status: null,
 }
 
-export const getRestos = createAsyncThunk('app/getRestos', async () => {
+export const getRestos = createAsyncThunk('resto/getRestos', async () => {
   const dataToReturn = []
-
-  console.log(`in resto`)
   try {
     const restosCollection = await firestore().collection('restos').get()
 
@@ -26,6 +24,30 @@ export const getRestos = createAsyncThunk('app/getRestos', async () => {
     return error
   }
 })
+
+export const updateRestoName = createAsyncThunk(
+  'resto/updateRestoName',
+  async (paramsFromUser, { dispatch, getState }) => {
+    const { id, updatedName } = paramsFromUser
+    const state = getState()
+
+    console.log(`state`, state)
+    console.log(`dispatch`, dispatch)
+    try {
+      await firestore()
+        .collection('restos')
+        .doc(id)
+        .update({
+          resto_name: updatedName,
+        })
+        .then(() => console.log('updated'))
+        .then(() => Alert.alert('Resto Name updated'))
+    } catch (error) {
+      console.log(`error`, error)
+      console.log(`error.message`, error.message)
+    }
+  },
+)
 
 const restoSlice = createSlice({
   name: 'resto',

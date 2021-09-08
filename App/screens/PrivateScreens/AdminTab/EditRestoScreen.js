@@ -10,12 +10,13 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import storage from '@react-native-firebase/storage'
 import { selectRestoToEdit } from '../../../redux/slices/appReducer'
 import CustomButton from '../../../components/CustomButton'
 import CustomTextInput from '../../../components/CustomTextInput'
 import { firestore } from '../../../config/firebase'
+import { updateRestoName } from '../../../redux/slices/restoReducer'
 
 const styles = StyleSheet.create({
   card_image: {
@@ -26,6 +27,8 @@ const styles = StyleSheet.create({
 })
 
 const EditRestoScreen = () => {
+  const dispatch = useDispatch()
+
   const restoToEditFromStore = useSelector(selectRestoToEdit)
   const [isUploading, setIsUploading] = useState(false)
   const [transferred, setTransfered] = useState(0)
@@ -36,6 +39,15 @@ const EditRestoScreen = () => {
   const [restoImage, setRestoImage] = useState(
     () => restoToEditFromStore?.data?.resto_image_url,
   )
+
+  const updateRestoNameHandler = async () => {
+    dispatch(
+      updateRestoName({
+        id: restoToEditFromStore.id,
+        updatedName: restoName,
+      }),
+    )
+  }
 
   const onAddRestoPress = async () => {
     setIsUploading(true)
@@ -74,7 +86,6 @@ const EditRestoScreen = () => {
             .collection('restos')
             .doc(restoToEditFromStore.id)
             .update({
-              resto_name: restoName,
               resto_image_url: uploadedImgUri,
             })
             .then(() => console.log('updated'))
@@ -138,7 +149,7 @@ const EditRestoScreen = () => {
         />
         <CustomButton
           text="Add Resto"
-          onPress={onAddRestoPress}
+          onPress={updateRestoNameHandler}
           isDisabled={restoToEditFromStore.length <= 0}
         />
 
