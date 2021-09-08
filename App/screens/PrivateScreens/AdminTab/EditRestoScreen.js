@@ -7,18 +7,20 @@ import {
   StyleSheet,
   View,
   Platform,
-  Alert,
+  Button,
   ActivityIndicator,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import storage from '@react-native-firebase/storage'
 import CustomButton from '../../../components/CustomButton'
 import CustomTextInput from '../../../components/CustomTextInput'
-import { firestore } from '../../../config/firebase'
 import {
+  selectIsPhotoUploading,
+  selectPHotoTransfered,
   selectRestoToEdit,
-  updateRestoName,
+  updateRestoInfo,
+  updateRestoPhoto,
 } from '../../../redux/slices/restoReducer'
+import colors from '../../../constants/colors'
 
 const styles = StyleSheet.create({
   card_image: {
@@ -26,15 +28,20 @@ const styles = StyleSheet.create({
     height: 40,
     resizeMode: 'contain',
   },
+  text: {
+    fontFamily: 'Nunito-Regular',
+    color: colors.zomatoLogoRed,
+    fontSize: 20,
+  },
 })
 
 const EditRestoScreen = () => {
   const dispatch = useDispatch()
 
   const restoToEditFromStore = useSelector(selectRestoToEdit)
-  const [isUploading, setIsUploading] = useState(false)
-  const [transferred, setTransfered] = useState(0)
-  const [uploadedImgUri, setUploadedImgUri] = useState('')
+  const isUploading = useSelector(selectIsPhotoUploading)
+  const transferred = useSelector(selectPHotoTransfered)
+
   const [restoName, setRestoName] = useState(
     () => restoToEditFromStore?.data?.resto_name,
   )
@@ -42,17 +49,16 @@ const EditRestoScreen = () => {
     () => restoToEditFromStore?.data?.resto_image_url,
   )
 
-  const updateRestoNameHandler = async () => {
+  const updateRestoInfoHandler = async () => {
     dispatch(
-      updateRestoName({
+      updateRestoInfo({
         id: restoToEditFromStore.id,
         updatedName: restoName,
       }),
     )
   }
 
-  const onAddRestoPress = async () => {
-    setIsUploading(true)
+  const updatePhotoHandler = async () => {
     const uploadUri = restoImage
 
     let fileName = uploadUri.substring(uploadUri.lastIndexOf('/') + 1)
@@ -60,57 +66,63 @@ const EditRestoScreen = () => {
     const name = fileName.split('.').slice(0, -1).join('.')
     fileName = `${name}${Date.now()}.${fileExtension}`
 
-    try {
-      const reference = storage().ref(fileName)
-      const task = reference.putFile(uploadUri)
+    dispatch(
+      updateRestoPhoto({
+        fileName,
+        uploadUri,
+      }),
+    )
+    // setIsUploading(true)
+    // const uploadUri = restoImage
 
-      console.log(`reference`, reference)
+    // let fileName = uploadUri.substring(uploadUri.lastIndexOf('/') + 1)
+    // const fileExtension = fileName.split('.').pop()
+    // const name = fileName.split('.').slice(0, -1).join('.')
+    // fileName = `${name}${Date.now()}.${fileExtension}`
 
-      task.on('state_changed', taskSnapshot => {
-        setTransfered(
-          Math.round(
-            taskSnapshot.bytesTransferred / taskSnapshot.totalBytes + 100,
-          ),
-        )
-      })
-      task
-        .then(async () => {
-          console.log(`task`, task)
+    // try {
+    //   const reference = storage().ref(fileName)
+    //   const task = reference.putFile(uploadUri)
 
-          const url = await storage().ref(task._ref.path).getDownloadURL()
+    //   console.log(`reference`, reference)
 
-          setUploadedImgUri(url)
-        })
-        .then(() => {
-          console.log(`uploadedImgUri`, uploadedImgUri)
-          // prev on add
-          firestore()
-            .collection('restos')
-            .doc(restoToEditFromStore.id)
-            .update({
-              resto_image_url: uploadedImgUri,
-            })
-            .then(() => console.log('updated'))
-        })
-        .then(() => {
-          Alert.alert('Image Uploaded', 'Image has been uploaded')
-          setIsUploading(false)
-        })
-    } catch (error) {
-      console.log(`error`, error)
-      setIsUploading(false)
-    }
+    //   task.on('state_changed', taskSnapshot => {
+    //     setTransfered(
+    //       Math.round(
+    //         taskSnapshot.bytesTransferred / taskSnapshot.totalBytes + 100,
+    //       ),
+    //     )
+    //   })
+    //   task
+    //     .then(async () => {
+    //       console.log(`task`, task)
+    //       const url = await storage().ref(task?._ref.path).getDownloadURL()
+    //       console.log(`url`, url)
+    //       setUploadedImgUri(url)
+    //     })
+    //     .then(() => {
+    //       Alert.alert('Image Uploaded', 'Image has been uploaded')
+    //       setIsUploading(false)
+    //     })
+    // } catch (error) {
+    //   console.log(`error`, error)
+    // }
   }
 
+  // upload photo functions
   const takePhotoFromCamera = async () => {
+    // TODO test this on android
     ImagePicker.openCamera({
       width: 300,
       height: 400,
       cropping: true,
     }).then(image => {
       console.log(image)
+      const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path
+      setRestoImage(imageUri)
     })
   }
+
   const choosePhotoFromGallery = async () => {
     ImagePicker.openPicker({
       width: 300,
@@ -118,7 +130,6 @@ const EditRestoScreen = () => {
       cropping: true,
     }).then(image => {
       const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path
-      console.log(imageUri)
       setRestoImage(imageUri)
     })
   }
@@ -127,23 +138,28 @@ const EditRestoScreen = () => {
     <SafeAreaView style={{ margin: 20 }}>
       <Text style={styles.text}>
         Editing
+        {`\t`}
         {restoToEditFromStore.data.resto_name}
       </Text>
 
       <View>
+        <Text>Image:</Text>
         <Image
           style={styles.card_image}
           source={{
             uri: restoImage,
           }}
         />
+        <Button title="Edit image" />
         <CustomButton text="Open Camera" onPress={takePhotoFromCamera} />
         <CustomButton
-          text="Opload from gallery"
+          text="Upload from gallery"
           onPress={choosePhotoFromGallery}
         />
       </View>
+
       <SafeAreaView>
+        <Text>Resto Title</Text>
         <CustomTextInput
           inputValue={restoName}
           setInputValue={setRestoName}
@@ -151,9 +167,10 @@ const EditRestoScreen = () => {
         />
         <CustomButton
           text="Add Resto"
-          onPress={updateRestoNameHandler}
+          onPress={updateRestoInfoHandler}
           isDisabled={restoToEditFromStore.length <= 0}
         />
+        <CustomButton text="Upload Pic" onPress={updatePhotoHandler} />
 
         {isUploading && (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
