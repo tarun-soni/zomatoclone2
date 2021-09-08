@@ -5,6 +5,10 @@ import { firestore } from '../../config/firebase'
 const initialState = {
   allRestos: [],
   status: null,
+  restoToEdit: {
+    id: null,
+    data: null,
+  },
 }
 
 export const getRestos = createAsyncThunk('resto/getRestos', async () => {
@@ -52,7 +56,11 @@ export const updateRestoName = createAsyncThunk(
 const restoSlice = createSlice({
   name: 'resto',
   initialState,
-  reducers: {},
+  reducers: {
+    setStoreRestoToEdit: (state, action) => {
+      state.restoToEdit = action.payload
+    },
+  },
   extraReducers: {
     [getRestos.fulfilled]: (state, action) => {
       state.status = 'success'
@@ -67,7 +75,12 @@ const restoSlice = createSlice({
   },
 })
 
-export default restoSlice.reducer
+// actions
+export const { setStoreRestoToEdit } = restoSlice.actions
 
+// selectors
 export const selectAllRestos = state => state.resto.allRestos
 export const selectGetRestoStatus = state => state.resto.status
+export const selectRestoToEdit = state => state.resto.restoToEdit
+
+export default restoSlice.reducer

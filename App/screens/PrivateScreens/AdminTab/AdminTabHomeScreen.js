@@ -13,16 +13,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import colors from '../../../constants/colors'
 import { wait } from '../../../utils/wait'
-import {
-  selectLoading,
-  setStoreRestoToEdit,
-} from '../../../redux/slices/appReducer'
+import { selectLoading } from '../../../redux/slices/appReducer'
 import Loader from '../../../components/Loader'
 import { EDIT_RESTO_SCREEN } from '../../../constants/screens'
 import {
   getRestos,
   selectAllRestos,
   selectGetRestoStatus,
+  setStoreRestoToEdit,
 } from '../../../redux/slices/restoReducer'
 
 const styles = StyleSheet.create({
