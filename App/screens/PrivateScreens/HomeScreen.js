@@ -1,10 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert } from 'react-native'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { useDispatch, useSelector } from 'react-redux'
 import { firestore } from '../../config/firebase'
-import { BottomTabRoutes } from '../../config/routes/BottomTabRoutes'
+import {
+  AdminBottomTabRoutes,
+  BottomTabRoutes,
+} from '../../config/routes/BottomTabRoutes'
 import colors from '../../constants/colors'
 import {
   ADMIN_TAB,
@@ -22,6 +25,7 @@ import {
 const HomeScreen = ({ navigation }) => {
   const Tab = createBottomTabNavigator()
   const user = useSelector(selectGlobalUser)
+  const [isUserAdmin, setIsUserAdmin] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -39,6 +43,7 @@ const HomeScreen = ({ navigation }) => {
 
           const { displayName, phoneNumber, isAdmin, email } =
             usersCollection._data
+          setIsUserAdmin(isAdmin)
           dispatch(
             updateGlobalUser({ displayName, email, phoneNumber, isAdmin }),
           )
@@ -84,14 +89,29 @@ const HomeScreen = ({ navigation }) => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      {BottomTabRoutes.map(route => (
-        <Tab.Screen
-          key={route.name}
-          name={route.name}
-          component={route.component}
-          options={route.options}
-        />
-      ))}
+      {isUserAdmin ? (
+        <>
+          {AdminBottomTabRoutes.map(route => (
+            <Tab.Screen
+              key={route.name}
+              name={route.name}
+              component={route.component}
+              options={route.options}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          {BottomTabRoutes.map(route => (
+            <Tab.Screen
+              key={route.name}
+              name={route.name}
+              component={route.component}
+              options={route.options}
+            />
+          ))}
+        </>
+      )}
     </Tab.Navigator>
   )
 }

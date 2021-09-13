@@ -32,6 +32,28 @@ const BottomTabRoutes = [
     component: UserProfileTab,
     options: {},
   },
+]
+const AdminBottomTabRoutes = [
+  {
+    name: ORDER_TAB,
+    component: OrderTab,
+    options: {},
+  },
+  {
+    name: DINE_OUT_TAB,
+    component: DineOutTabHomeScreen,
+    options: {},
+  },
+  {
+    name: PRO_TAB,
+    component: ProTab,
+    options: {},
+  },
+  {
+    name: USER_PROFILE_TAB,
+    component: UserProfileTab,
+    options: {},
+  },
   {
     name: ADMIN_TAB,
     component: AdminTab,
@@ -39,4 +61,4 @@ const BottomTabRoutes = [
   },
 ]
 
-export { BottomTabRoutes }
+export { BottomTabRoutes, AdminBottomTabRoutes }
