@@ -10,6 +10,7 @@ import {
   Button,
   ActivityIndicator,
 } from 'react-native'
+import { Overlay } from 'react-native-elements/dist/overlay/Overlay'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomButton from '../../../components/CustomButton'
 import CustomTextInput from '../../../components/CustomTextInput'
@@ -21,6 +22,7 @@ import {
   updateRestoPhoto,
 } from '../../../redux/slices/restoReducer'
 import colors from '../../../constants/colors'
+import UploadPicOverlay from './UploadPicOverlay'
 
 const styles = StyleSheet.create({
   card_image: {
@@ -33,6 +35,10 @@ const styles = StyleSheet.create({
     color: colors.zomatoLogoRed,
     fontSize: 20,
   },
+  backdrop: {
+    backgroundColor: '#111',
+    opacity: 0.75,
+  },
 })
 
 const EditRestoScreen = () => {
@@ -41,7 +47,7 @@ const EditRestoScreen = () => {
   const restoToEditFromStore = useSelector(selectRestoToEdit)
   const isUploading = useSelector(selectIsPhotoUploading)
   const transferred = useSelector(selectPHotoTransfered)
-
+  const [uploadImageOverlay, setUploadImageOverlay] = useState(false)
   const [restoName, setRestoName] = useState(
     () => restoToEditFromStore?.data?.resto_name,
   )
@@ -72,41 +78,6 @@ const EditRestoScreen = () => {
         uploadUri,
       }),
     )
-    // setIsUploading(true)
-    // const uploadUri = restoImage
-
-    // let fileName = uploadUri.substring(uploadUri.lastIndexOf('/') + 1)
-    // const fileExtension = fileName.split('.').pop()
-    // const name = fileName.split('.').slice(0, -1).join('.')
-    // fileName = `${name}${Date.now()}.${fileExtension}`
-
-    // try {
-    //   const reference = storage().ref(fileName)
-    //   const task = reference.putFile(uploadUri)
-
-    //   console.log(`reference`, reference)
-
-    //   task.on('state_changed', taskSnapshot => {
-    //     setTransfered(
-    //       Math.round(
-    //         taskSnapshot.bytesTransferred / taskSnapshot.totalBytes + 100,
-    //       ),
-    //     )
-    //   })
-    //   task
-    //     .then(async () => {
-    //       console.log(`task`, task)
-    //       const url = await storage().ref(task?._ref.path).getDownloadURL()
-    //       console.log(`url`, url)
-    //       setUploadedImgUri(url)
-    //     })
-    //     .then(() => {
-    //       Alert.alert('Image Uploaded', 'Image has been uploaded')
-    //       setIsUploading(false)
-    //     })
-    // } catch (error) {
-    //   console.log(`error`, error)
-    // }
   }
 
   // upload photo functions
@@ -150,11 +121,9 @@ const EditRestoScreen = () => {
             uri: restoImage,
           }}
         />
-        <Button title="Edit image" />
-        <CustomButton text="Open Camera" onPress={takePhotoFromCamera} />
-        <CustomButton
-          text="Upload from gallery"
-          onPress={choosePhotoFromGallery}
+        <Button
+          title="Edit image"
+          onPress={() => setUploadImageOverlay(true)}
         />
       </View>
 
@@ -166,11 +135,10 @@ const EditRestoScreen = () => {
           placeholderText="Add a new Resto"
         />
         <CustomButton
-          text="Add Resto"
+          text="Add/Update Resto"
           onPress={updateRestoInfoHandler}
           isDisabled={restoToEditFromStore.length <= 0}
         />
-        <CustomButton text="Upload Pic" onPress={updatePhotoHandler} />
 
         {isUploading && (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -180,6 +148,24 @@ const EditRestoScreen = () => {
           </View>
         )}
       </SafeAreaView>
+
+      {uploadImageOverlay && (
+        <Overlay
+          isVisible={uploadImageOverlay}
+          onBackdropPress={() => setUploadImageOverlay(false)}
+          backdropStyle={styles.backdrop}
+        >
+          <View style={{ margin: 30 }}>
+            <UploadPicOverlay
+              setUploadImageOverlay={setUploadImageOverlay}
+              choosePhotoFromGallery={choosePhotoFromGallery}
+              takePhotoFromCamera={takePhotoFromCamera}
+              restoImage={restoImage}
+              updatePhotoHandler={updatePhotoHandler}
+            />
+          </View>
+        </Overlay>
+      )}
     </SafeAreaView>
   )
 }

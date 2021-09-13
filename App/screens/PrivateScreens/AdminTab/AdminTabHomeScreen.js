@@ -112,13 +112,6 @@ const AdminTabHomeScreen = ({ navigation }) => {
           <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
         }
       />
-
-      {/* <Overlay isVisible={editRestoOverlay}>
-        <EditRestoOverlay
-          setEditRestoOverlay={setEditRestoOverlay}
-          restoToEdit={restoToEdit}
-        />
-      </Overlay> */}
     </View>
   )
 }

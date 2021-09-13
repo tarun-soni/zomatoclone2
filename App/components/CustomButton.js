@@ -22,11 +22,23 @@ const styles = StyleSheet.create({
   disabled: {
     backgroundColor: 'gray',
   },
+  small_button: {
+    width: 150,
+  },
+  medium_button: {
+    width: 220,
+  },
+  large_button: {
+    width: 400,
+  },
 })
 
-const CustomButton = ({ text, onPress, isDisabled }) => {
+const CustomButton = ({ text, onPress, isDisabled, size }) => {
   const buttonStyles = [styles.btn_container]
   if (isDisabled) buttonStyles.push(styles.disabled)
+  if (size === 'sm') buttonStyles.push(styles.small_button)
+  if (size === 'md') buttonStyles.push(styles.medium_button)
+  if (size === 'lg') buttonStyles.push(styles.large_button)
 
   return (
     <TouchableOpacity
