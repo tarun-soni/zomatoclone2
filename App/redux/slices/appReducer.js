@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   isLoggedIn: false,
-  user: null,
+  user: {
+    id: null,
+  },
   loading: false,
 }
 
@@ -16,6 +18,14 @@ const appSlice = createSlice({
     setGlobalUser: (state, action) => {
       state.user = action.payload
     },
+    updateGlobalUser: (state, action) => {
+      const _user = { ...state.user, ...action.payload }
+      state.user = _user
+    },
+    resetGlobalUser: state => {
+      state.user = { id: null }
+      state.isLoggedIn = false
+    },
     setLoading: (state, action) => {
       state.loading = action.payload
     },
@@ -23,7 +33,13 @@ const appSlice = createSlice({
 })
 
 // actions
-export const { setIsLoggedIn, setGlobalUser, setLoading } = appSlice.actions
+export const {
+  setIsLoggedIn,
+  setGlobalUser,
+  setLoading,
+  updateGlobalUser,
+  resetGlobalUser,
+} = appSlice.actions
 
 // selector
 export const selectIsLoggedIn = state => state.app.isLoggedIn

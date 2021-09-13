@@ -21,10 +21,9 @@ const Main = () => {
 
   const onAuthStateChanged = useCallback(
     (_user = {}) => {
-      // setUser(_user)
       dispatch(setLoading(false))
       if (_user) {
-        dispatch(setGlobalUser(JSON.stringify(_user)))
+        dispatch(setGlobalUser({ id: _user.uid }))
         dispatch(setIsLoggedIn(true))
       }
       if (initializing) {
