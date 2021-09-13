@@ -8,15 +8,12 @@ import {
   View,
   Platform,
   Button,
-  ActivityIndicator,
 } from 'react-native'
 import { Overlay } from 'react-native-elements/dist/overlay/Overlay'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomButton from '../../../components/CustomButton'
 import CustomTextInput from '../../../components/CustomTextInput'
 import {
-  selectIsPhotoUploading,
-  selectPHotoTransfered,
   selectRestoToEdit,
   updateRestoInfo,
   updateRestoPhoto,
@@ -45,8 +42,6 @@ const EditRestoScreen = () => {
   const dispatch = useDispatch()
 
   const restoToEditFromStore = useSelector(selectRestoToEdit)
-  const isUploading = useSelector(selectIsPhotoUploading)
-  const transferred = useSelector(selectPHotoTransfered)
   const [uploadImageOverlay, setUploadImageOverlay] = useState(false)
   const [restoName, setRestoName] = useState(
     () => restoToEditFromStore?.data?.resto_name,
@@ -110,7 +105,7 @@ const EditRestoScreen = () => {
       <Text style={styles.text}>
         Editing
         {`\t`}
-        {restoToEditFromStore.data.resto_name}
+        {restoToEditFromStore?.data?.resto_name}
       </Text>
 
       <View>
@@ -139,14 +134,6 @@ const EditRestoScreen = () => {
           onPress={updateRestoInfoHandler}
           isDisabled={restoToEditFromStore.length <= 0}
         />
-
-        {isUploading && (
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
-            <Text>{transferred}% completed </Text>
-            <ActivityIndicator size="small" />
-          </View>
-        )}
       </SafeAreaView>
 
       {uploadImageOverlay && (

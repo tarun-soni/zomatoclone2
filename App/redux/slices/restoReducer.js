@@ -109,6 +109,7 @@ export const updateRestoPhoto = createAsyncThunk(
   'resto/updateRestoPhoto',
 
   async (params, { dispatch }) => {
+    dispatch(setIsPhotoUploading(true))
     const { fileName, uploadUri } = params
 
     try {
@@ -118,14 +119,9 @@ export const updateRestoPhoto = createAsyncThunk(
       console.log(`reference`, reference)
 
       task.on('state_changed', taskSnapshot => {
+        const { bytesTransferred, totalBytes } = taskSnapshot
         dispatch(
-          dispatch(
-            setPhotoTransfered(
-              Math.round(
-                taskSnapshot.bytesTransferred / taskSnapshot.totalBytes + 100,
-              ),
-            ),
-          ),
+          setPhotoTransfered(Math.round(bytesTransferred / totalBytes + 100)),
         )
       })
       task
@@ -137,10 +133,12 @@ export const updateRestoPhoto = createAsyncThunk(
         })
         .then(() => {
           Alert.alert('Image Uploaded', 'Image has been uploaded')
-          // setIsUploading(false)
         })
     } catch (error) {
       console.log(`error`, error)
+      Alert.alert('Error In Image Upload', 'Please try again')
+    } finally {
+      dispatch(setIsPhotoUploading(false))
     }
   },
 )

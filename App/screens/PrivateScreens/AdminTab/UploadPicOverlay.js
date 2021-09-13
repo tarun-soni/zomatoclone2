@@ -1,6 +1,19 @@
 import React from 'react'
-import { Button, SafeAreaView, Image, StyleSheet, View } from 'react-native'
+import {
+  Button,
+  SafeAreaView,
+  Image,
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator,
+} from 'react-native'
+import { useSelector } from 'react-redux'
 import CustomButton from '../../../components/CustomButton'
+import {
+  selectIsPhotoUploading,
+  selectPHotoTransfered,
+} from '../../../redux/slices/restoReducer'
 
 const styles = StyleSheet.create({
   card_image: {
@@ -17,6 +30,9 @@ const UploadPicOverlay = ({
   restoImage,
   updatePhotoHandler,
 }) => {
+  const photoTransdered = useSelector(selectPHotoTransfered)
+  const isUploading = useSelector(selectIsPhotoUploading)
+
   const onSavePressHandler = async () => {
     updatePhotoHandler()
   }
@@ -47,6 +63,14 @@ const UploadPicOverlay = ({
           text="Upload from gallery"
           onPress={choosePhotoFromGallery}
         />
+
+        {isUploading && (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+            <Text>{photoTransdered - 1}% completed </Text>
+            <ActivityIndicator size="large" />
+          </View>
+        )}
         <View style={{ flexDirection: 'row' }}>
           <Button title="Save" onPress={onSavePressHandler} />
           <Button title="Close" onPress={onClosePressHandler} />
