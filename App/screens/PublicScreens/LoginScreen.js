@@ -13,7 +13,7 @@ import {
   Keyboard,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import colors from '../../constants/colors'
+import { COLORS } from '../../constants/theme'
 import Logo from '../../components/Logo'
 import CustomTextInput from '../../components/CustomTextInput'
 import CustomButton from '../../components/CustomButton'
@@ -29,7 +29,7 @@ import Loader from '../../components/Loader'
 const styles = StyleSheet.create({
   contanier: {
     flex: 1,
-    backgroundColor: colors.zomatoWhite,
+    backgroundColor: COLORS.zomatoWhite,
     justifyContent: 'flex-start',
   },
   inputs_container: {
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'Nunito-Regular',
-    color: colors.zomatoLogoRed,
+    color: COLORS.zomatoLogoRed,
     textAlign: 'center',
   },
 

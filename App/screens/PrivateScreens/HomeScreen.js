@@ -8,7 +8,7 @@ import {
   AdminBottomTabRoutes,
   BottomTabRoutes,
 } from '../../config/routes/BottomTabRoutes'
-import colors from '../../constants/colors'
+import { COLORS } from '../../constants/theme'
 import {
   ADMIN_TAB,
   DINE_OUT_TAB,
@@ -85,7 +85,7 @@ const HomeScreen = ({ navigation }) => {
           }
           return <Icon name={iconName} color={color} type="MaterialIcons" />
         },
-        tabBarActiveTintColor: colors.buttonRed,
+        tabBarActiveTintColor: COLORS.buttonRed,
         tabBarInactiveTintColor: 'gray',
       })}
     >

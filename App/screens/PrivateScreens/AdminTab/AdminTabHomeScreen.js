@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
-import colors from '../../../constants/colors'
+import { COLORS } from '../../../constants/theme'
 import { wait } from '../../../utils/wait'
 import { selectLoading } from '../../../redux/slices/appReducer'
 import Loader from '../../../components/Loader'
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'Nunito-Regular',
-    color: colors.zomatoLogoRed,
+    color: COLORS.zomatoLogoRed,
     fontSize: 20,
   },
   card_image: {

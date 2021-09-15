@@ -18,7 +18,7 @@ import {
   updateRestoInfo,
   updateRestoPhoto,
 } from '../../../redux/slices/restoReducer'
-import colors from '../../../constants/colors'
+import { COLORS } from '../../../constants/theme'
 import UploadPicOverlay from './UploadPicOverlay'
 
 const styles = StyleSheet.create({
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'Nunito-Regular',
-    color: colors.zomatoLogoRed,
+    color: COLORS.zomatoLogoRed,
     fontSize: 20,
   },
   backdrop: {

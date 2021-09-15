@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, SafeAreaView, StyleSheet } from 'react-native'
-import colors from '../constants/colors'
+import { COLORS } from '../constants/theme'
 
 const styles = StyleSheet.create({
   loader_container: {
@@ -13,7 +13,7 @@ const Loader = () => {
   return (
     <SafeAreaView style={styles.loader_container}>
       <ActivityIndicator
-        color={colors.zomatoLogoRed}
+        color={COLORS.zomatoLogoRed}
         size="large"
         style={{ marginVertical: 40 }}
       />

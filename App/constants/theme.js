@@ -19,6 +19,11 @@ export const COLORS = {
   lightGray: '#F5F6FB',
   lightGray2: '#757575',
 
+  zomatoLogoRed: '#CB202D',
+  buttonRed: '#ed5a6b',
+  zomatoBlack: '#2D2D2D',
+  zomatoWhite: '#f4f4f2',
+
   transparentBlack1: 'rgba(2, 2, 2, 0.1)',
   transparentBlack3: 'rgba(2, 2, 2, 0.3)',
   transparentBlack5: 'rgba(2, 2, 2, 0.5)',
@@ -30,6 +35,7 @@ export const COLORS = {
 
   transparent: 'transparent',
 }
+
 export const SIZES = {
   // global sizes
   base: 8,
@@ -53,6 +59,7 @@ export const SIZES = {
   width,
   height,
 }
+
 export const FONTS = {
   largeTitle: { fontFamily: 'Nunito-Bold', fontSize: SIZES.largeTitle },
   h1: { fontFamily: 'Nunito-Bold', fontSize: SIZES.h1, lineHeight: 36 },
@@ -85,7 +92,3 @@ export const FONTS = {
     lineHeight: 22,
   },
 }
-
-const appTheme = { COLORS, SIZES, FONTS }
-
-export default appTheme

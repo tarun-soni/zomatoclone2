@@ -10,13 +10,13 @@ import {
 import Loader from '../../../components/Loader'
 import { auth } from '../../../config/firebase'
 import CustomButton from '../../../components/CustomButton'
-import colors from '../../../constants/colors'
+import { COLORS } from '../../../constants/theme'
 import { LOGINSCREEN } from '../../../constants/screens'
 
 const styles = StyleSheet.create({
   text: {
     fontFamily: 'Nunito-Regular',
-    color: colors.zomatoLogoRed,
+    color: COLORS.zomatoLogoRed,
   },
 })
 

@@ -12,7 +12,6 @@ import { COLORS, FONTS, SIZES } from '../../constants/theme'
 import BasicButton from '../../components/BasicButton'
 
 import { LOGINSCREEN, SIGNUPSCREEN } from '../../constants/screens'
-import colors from '../../constants/colors'
 
 const styles = StyleSheet.create({
   container: {
@@ -65,7 +64,9 @@ const PublicHomeScreen = ({ navigation }) => {
             style={styles.gradient}
           >
             <Text style={styles.header_text}>
-              Cooking Delicious Food Easily
+              Delivering
+              <Text> Delicious </Text>
+              Food Easily
             </Text>
           </LinearGradient>
         </ImageBackground>
@@ -87,7 +88,7 @@ const PublicHomeScreen = ({ navigation }) => {
         >
           <BasicButton
             text="LOGIN"
-            propColors={[colors.buttonRed, colors.buttonRed]}
+            propColors={[COLORS.buttonRed, COLORS.buttonRed]}
             onPress={() => navigation.navigate(LOGINSCREEN)}
             buttonContainerStyles={{
               paddingVertical: 20,
