@@ -11,7 +11,8 @@ import { images } from '../../constants/images'
 import { COLORS, FONTS, SIZES } from '../../constants/theme'
 import BasicButton from '../../components/BasicButton'
 
-import { LOGINSCREEN } from '../../constants/screens'
+import { LOGINSCREEN, SIGNUPSCREEN } from '../../constants/screens'
+import colors from '../../constants/colors'
 
 const styles = StyleSheet.create({
   container: {
@@ -78,6 +79,32 @@ const PublicHomeScreen = ({ navigation }) => {
         <Text style={styles.details_text}>
           Discover food restos & more than 1200 recipes in your hands!
         </Text>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+          }}
+        >
+          <BasicButton
+            text="LOGIN"
+            propColors={[colors.buttonRed, colors.buttonRed]}
+            onPress={() => navigation.navigate(LOGINSCREEN)}
+            buttonContainerStyles={{
+              paddingVertical: 20,
+              borderRadius: 8,
+            }}
+          />
+          <BasicButton
+            propColors={[]}
+            text="SIGNUP"
+            onPress={() => navigation.navigate(SIGNUPSCREEN)}
+            buttonContainerStyles={{
+              paddingVertical: 10,
+              borderRadius: 8,
+              marginTop: SIZES.radius,
+            }}
+          />
+        </View>
       </View>
     )
   }
@@ -87,20 +114,8 @@ const PublicHomeScreen = ({ navigation }) => {
       <StatusBar barStyle="light-content" />
       {renderHeader()}
       {renderDetails()}
+
       {/* buttons */}
-      <View style={{ borderWidth: 2, borderColor: 'red' }}>
-        <BasicButton
-          propColors={[COLORS.darkGreen, COLORS.lime]}
-          text="LOGIN"
-          onPress={() => navigation.replace(LOGINSCREEN)}
-        />
-        <BasicButton
-          propColors={[COLORS.blue, COLORS.darkGreen]}
-          text="SIGNUP"
-          onPress={() => navigation.navigate(LOGINSCREEN)}
-        />
-      </View>
-      <Text style={{ color: 'white' }}>hi</Text>
     </View>
   )
 }

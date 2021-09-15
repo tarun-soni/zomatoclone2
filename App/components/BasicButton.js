@@ -1,40 +1,50 @@
 import React from 'react'
-import { Text, TouchableOpacity } from 'react-native'
-import colors from '../constants/colors'
-import { COLORS, FONTS } from '../constants/theme'
+import { Text, TouchableOpacity, StyleSheet } from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
+import { FONTS } from '../constants/theme'
 
-const BasicButton = ({ text, onPress, isDisabled, propColors }) => {
+const styles = StyleSheet.create({
+  button_text: {
+    textAlign: 'center',
+    color: 'white',
+    ...FONTS.h3,
+  },
+})
+
+const BasicButton = ({
+  text,
+  onPress,
+  isDisabled,
+  propColors,
+  buttonContainerStyles,
+}) => {
   if (propColors.length > 0) {
+    return (
+      <TouchableOpacity onPress={onPress} disabled={isDisabled}>
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          colors={propColors}
+          style={{ ...buttonContainerStyles }}
+        >
+          <Text style={styles.button_text}>{text}</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    )
+    // eslint-disable-next-line no-else-return
+  } else {
     return (
       <TouchableOpacity
         style={{
-          textAlign: 'center',
-          color: COLORS.white,
-          ...FONTS.h2,
+          ...buttonContainerStyles,
         }}
         onPress={onPress}
         disabled={isDisabled}
       >
-        <Text>{text}</Text>
+        <Text style={styles.button_text}>{text}</Text>
       </TouchableOpacity>
     )
   }
-
-  return (
-    <TouchableOpacity
-      style={{
-        textAlign: 'center',
-        backgroundColor: colors.buttonRed,
-        ...FONTS.h2,
-        borderWidth: 4,
-        borderColor: 'white',
-      }}
-      onPress={onPress}
-      disabled={isDisabled}
-    >
-      <Text style={{ color: 'white' }}>{text}</Text>
-    </TouchableOpacity>
-  )
 }
 
 BasicButton.defaultProps = {
