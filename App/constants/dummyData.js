@@ -1,7 +1,7 @@
-import images from './images'
+import { images } from './images'
 import icons from './icons'
 
-const trendingRecipes = [
+export const trendingRecipes = [
   {
     id: 1,
     name: 'Spaghetti With Shrimp Sauce',
@@ -253,10 +253,3 @@ const trendingRecipes = [
     viewers: [],
   },
 ]
-
-const categories = trendingRecipes
-
-export default {
-  trendingRecipes,
-  categories,
-}
