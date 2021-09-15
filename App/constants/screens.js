@@ -1,4 +1,5 @@
 // Public Screens
+export const PUBLIC_HOME_SCREEN = 'PublicHomeScreen'
 export const LOGINSCREEN = 'LoginScreen'
 export const SIGNUPSCREEN = 'SignUpScreen'
 

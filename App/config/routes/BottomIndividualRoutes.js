@@ -41,13 +41,15 @@ const OrderRoutes = [
     options: { headerShown: true },
   },
 ]
+
 const ProTabRoutes = [
   {
     name: PRO_TAB_HOMESCREEN,
     component: ProTabHomeScreen,
-    options: { headerShown: true },
+    options: { headerShown: false },
   },
 ]
+
 const UserProfileTabRoutes = [
   {
     name: USER_PROFILE_TAB_HOMESCREEN,

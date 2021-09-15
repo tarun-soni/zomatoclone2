@@ -34,26 +34,7 @@ const BottomTabRoutes = [
   },
 ]
 const AdminBottomTabRoutes = [
-  {
-    name: ORDER_TAB,
-    component: OrderTab,
-    options: {},
-  },
-  {
-    name: DINE_OUT_TAB,
-    component: DineOutTabHomeScreen,
-    options: {},
-  },
-  {
-    name: PRO_TAB,
-    component: ProTab,
-    options: {},
-  },
-  {
-    name: USER_PROFILE_TAB,
-    component: UserProfileTab,
-    options: {},
-  },
+  ...BottomTabRoutes,
   {
     name: ADMIN_TAB,
     component: AdminTab,
