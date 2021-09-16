@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
+import { Alert, StatusBar } from 'react-native'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { useDispatch, useSelector } from 'react-redux'
 import { firestore } from '../../config/firebase'
@@ -37,9 +37,8 @@ const HomeScreen = ({ navigation }) => {
             .doc(user.id)
             .get()
 
-          if (!usersCollection._data) {
+          if (!usersCollection?._data)
             Alert.alert('Error in fetching user details')
-          }
 
           const { displayName, phoneNumber, isAdmin, email } =
             usersCollection._data
@@ -47,9 +46,7 @@ const HomeScreen = ({ navigation }) => {
           dispatch(
             updateGlobalUser({ displayName, email, phoneNumber, isAdmin }),
           )
-        } else {
-          navigation.replace(LOGINSCREEN)
-        }
+        } else navigation.replace(LOGINSCREEN)
       } catch (error) {
         console.log(`error`, error)
       }
@@ -59,60 +56,63 @@ const HomeScreen = ({ navigation }) => {
   }, [dispatch, navigation, user?.id])
 
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color }) => {
-          let iconName
+    <>
+      <StatusBar barStyle="dark-content" />
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color }) => {
+            let iconName
 
-          switch (route.name) {
-            case ORDER_TAB:
-              iconName = 'shopping-basket'
-              break
-            case DINE_OUT_TAB:
-              iconName = 'brunch-dining'
-              break
-            case RECIPE_TAB:
-              iconName = 'menu-book'
-              break
-            case USER_PROFILE_TAB:
-              iconName = 'person'
-              break
-            case ADMIN_TAB:
-              iconName = 'admin-panel-settings'
-              break
-            default:
-              break
-          }
-          return <Icon name={iconName} color={color} type="MaterialIcons" />
-        },
-        tabBarActiveTintColor: COLORS.buttonRed,
-        tabBarInactiveTintColor: 'gray',
-      })}
-    >
-      {isUserAdmin ? (
-        <>
-          {AdminBottomTabRoutes.map(route => (
-            <Tab.Screen
-              key={route.name}
-              name={route.name}
-              component={route.component}
-              options={route.options}
-            />
-          ))}
-        </>
-      ) : (
-        <>
-          {BottomTabRoutes.map(route => (
-            <Tab.Screen
-              key={route.name}
-              name={route.name}
-              component={route.component}
-              options={route.options}
-            />
-          ))}
-        </>
-      )}
-    </Tab.Navigator>
+            switch (route.name) {
+              case ORDER_TAB:
+                iconName = 'shopping-basket'
+                break
+              case DINE_OUT_TAB:
+                iconName = 'brunch-dining'
+                break
+              case RECIPE_TAB:
+                iconName = 'menu-book'
+                break
+              case USER_PROFILE_TAB:
+                iconName = 'person'
+                break
+              case ADMIN_TAB:
+                iconName = 'admin-panel-settings'
+                break
+              default:
+                break
+            }
+            return <Icon name={iconName} color={color} type="MaterialIcons" />
+          },
+          tabBarActiveTintColor: COLORS.buttonRed,
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        {isUserAdmin ? (
+          <>
+            {AdminBottomTabRoutes.map(route => (
+              <Tab.Screen
+                key={route.name}
+                name={route.name}
+                component={route.component}
+                options={route.options}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            {BottomTabRoutes.map(route => (
+              <Tab.Screen
+                key={route.name}
+                name={route.name}
+                component={route.component}
+                options={route.options}
+              />
+            ))}
+          </>
+        )}
+      </Tab.Navigator>
+    </>
   )
 }
 

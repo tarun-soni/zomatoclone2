@@ -11,7 +11,7 @@ import Loader from '../../../components/Loader'
 import { auth } from '../../../config/firebase'
 import CustomButton from '../../../components/CustomButton'
 import { COLORS } from '../../../constants/theme'
-import { LOGINSCREEN } from '../../../constants/screens'
+import { PUBLIC_HOME_SCREEN } from '../../../constants/screens'
 
 const styles = StyleSheet.create({
   text: {
@@ -34,7 +34,7 @@ const UserProfileTabHomeScreen = ({ navigation }) => {
       .then(() => dispatch(resetGlobalUser()))
 
       .then(() => dispatch(setLoading(false)))
-      .then(() => navigation.replace(LOGINSCREEN))
+      .then(() => navigation.replace(PUBLIC_HOME_SCREEN))
       .then(() => console.log('User signed out!'))
   }
 
