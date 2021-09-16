@@ -149,7 +149,7 @@ const RecipeTabHomeScreen = ({ navigation }) => {
         }}
       >
         <Text style={{ marginHorizontal: SIZES.padding, ...FONTS.h2 }}>
-          Trending Recipe
+          Trending Recipes
         </Text>
 
         <FlatList
@@ -173,9 +173,33 @@ const RecipeTabHomeScreen = ({ navigation }) => {
     )
   }
 
+  function renderCategoryHeader() {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginTop: 20,
+          marginHorizontal: SIZES.padding,
+        }}
+      >
+        <Text style={{ flex: 1, ...FONTS.h3 }}>Categories</Text>
+        <TouchableOpacity>
+          <Text style={{ color: COLORS.gray, ...FONTS.body4 }}>View All</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.zomatoWhite }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: COLORS.zomatoWhite,
+      }}
+    >
       <FlatList
+        style={{ marginBottom: 20 }}
         data={trendingRecipes}
         keyExtractor={item => `${item.id}`}
         keyboardDismissMode="on-drag"
@@ -186,13 +210,7 @@ const RecipeTabHomeScreen = ({ navigation }) => {
             {renderSearchBar()}
             {renderSeeRecipeCard()}
             {renderTrendingSection()}
-            {/* TRending section */}
-            {/* Category header */}
-          </View>
-        )}
-        ListFooterComponent={() => (
-          <View>
-            <Text>LISt Footer</Text>
+            {renderCategoryHeader()}
           </View>
         )}
         renderItem={({ item }) => {
