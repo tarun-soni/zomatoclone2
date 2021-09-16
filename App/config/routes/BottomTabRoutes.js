@@ -25,7 +25,7 @@ const BottomTabRoutes = [
   {
     name: RECIPE_TAB,
     component: RecipeTab,
-    options: {},
+    options: { headerShown: false },
   },
   {
     name: USER_PROFILE_TAB,

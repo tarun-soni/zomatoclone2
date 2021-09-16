@@ -22,6 +22,7 @@ export const DINEOUT_TAB_HOMESCREEN = 'DineOutTabHomeScreen'
 export const USER_PROFILE_TAB_HOMESCREEN = 'UserProfileTabHomeScreen'
 // RECIPE TAB SCREENS
 export const RECIPE_TAB_HOMESCREEN = 'RecipeTabScreen'
+export const RECIPE_INFO_SCREEN = 'RecipeInfoScreen'
 
 // ORDER TAB SCREENS
 export const ORDER_TAB_HOMESCREEN = 'OrderTabHomeScreen'
