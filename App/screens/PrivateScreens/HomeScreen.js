@@ -14,7 +14,7 @@ import {
   DINE_OUT_TAB,
   LOGINSCREEN,
   ORDER_TAB,
-  PRO_TAB,
+  RECIPE_TAB,
   USER_PROFILE_TAB,
 } from '../../constants/screens'
 import {
@@ -71,8 +71,8 @@ const HomeScreen = ({ navigation }) => {
             case DINE_OUT_TAB:
               iconName = 'brunch-dining'
               break
-            case PRO_TAB:
-              iconName = 'shield'
+            case RECIPE_TAB:
+              iconName = 'menu-book'
               break
             case USER_PROFILE_TAB:
               iconName = 'person'

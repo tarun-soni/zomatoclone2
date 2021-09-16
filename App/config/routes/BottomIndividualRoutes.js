@@ -3,14 +3,14 @@ import {
   DINEOUT_TAB_HOMESCREEN,
   EDIT_RESTO_SCREEN,
   ORDER_TAB_HOMESCREEN,
-  PRO_TAB_HOMESCREEN,
+  RECIPE_TAB_HOMESCREEN,
   USER_PROFILE_TAB_HOMESCREEN,
 } from '../../constants/screens'
 import AdminTabHomeScreen from '../../screens/PrivateScreens/AdminTab/AdminTabHomeScreen'
 import EditRestoScreen from '../../screens/PrivateScreens/AdminTab/EditRestoScreen'
 import DineOutTabHomeScreen from '../../screens/PrivateScreens/DineOutTab/DineOutTabHomeScreen'
 import OrderTabHomeScreen from '../../screens/PrivateScreens/OrderTab/OrderTabHomeScreen'
-import ProTabHomeScreen from '../../screens/PrivateScreens/ProTab/ProTabHomeScreen'
+import RecipeTabHomeScreen from '../../screens/PrivateScreens/RecipeTab/RecipeTabHomeScreen'
 import UserProfileTabHomeScreen from '../../screens/PrivateScreens/UserProfileTab/UserProfileTabHomeScreen'
 
 const DineOutRoutes = [
@@ -42,10 +42,10 @@ const OrderRoutes = [
   },
 ]
 
-const ProTabRoutes = [
+const RecipeTabRoutes = [
   {
-    name: PRO_TAB_HOMESCREEN,
-    component: ProTabHomeScreen,
+    name: RECIPE_TAB_HOMESCREEN,
+    component: RecipeTabHomeScreen,
     options: { headerShown: false },
   },
 ]
@@ -62,6 +62,6 @@ export {
   OrderRoutes,
   AdminTabRoutes,
   DineOutRoutes,
-  ProTabRoutes,
+  RecipeTabRoutes,
   UserProfileTabRoutes,
 }

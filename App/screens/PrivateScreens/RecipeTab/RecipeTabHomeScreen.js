@@ -4,8 +4,9 @@ import { FlatList } from 'react-native-gesture-handler'
 import { COLORS, SIZES } from '../../../constants/theme'
 import { trendingRecipes } from '../../../constants/dummyData'
 import CategoryCard from './components/CategoryCard'
+import { RECIPE_TAB_HOMESCREEN } from '../../../constants/screens'
 
-const ProTabHomeScreen = ({ navigation }) => {
+const RecipeTabHomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.zomatoWhite }}>
       <FlatList
@@ -31,7 +32,7 @@ const ProTabHomeScreen = ({ navigation }) => {
                 containerStyle={{ marginHorizontal: SIZES.padding }}
                 // TODO create and add RECIPE SCREEN
                 onPress={() =>
-                  navigation.navigate(RECIPE_SCREEN, { recipe: item })
+                  navigation.navigate(RECIPE_TAB_HOMESCREEN, { recipe: item })
                 }
               />
             </View>
@@ -42,4 +43,4 @@ const ProTabHomeScreen = ({ navigation }) => {
   )
 }
 
-export default ProTabHomeScreen
+export default RecipeTabHomeScreen
