@@ -1,6 +1,89 @@
+/* eslint-disable no-else-return */
 import React from 'react'
-import { Image, Text, View, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet,
+  Image,
+  Text,
+  View,
+  TouchableOpacity,
+  Platform,
+} from 'react-native'
+import { BlurView } from '@react-native-community/blur'
+import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { COLORS, FONTS, SIZES } from '../../../../constants/theme'
+
+const styles = StyleSheet.create({
+  recipe_card_container: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+    right: 10,
+    height: 100,
+    paddingVertical: SIZES.radius,
+    paddingHorizontal: SIZES.base,
+    borderRadius: SIZES.radius,
+  },
+})
+
+const RecipeCardDetails = ({ recipeItem }) => {
+  return (
+    <View
+      style={{
+        flex: 1,
+      }}
+    >
+      {/* name and bookmark section */}
+      <View
+        style={{
+          paddingHorizontal: 10,
+          flexDirection: 'row',
+          flex: 1,
+          justifyContent: 'space-between',
+        }}
+      >
+        <Text style={{ width: '70%', color: COLORS.white, ...FONTS.h3 }}>
+          {recipeItem.name}
+        </Text>
+        <Icon
+          name={recipeItem.isBookmark ? 'bookmark' : 'bookmark-outline'}
+          color="white"
+        />
+      </View>
+      {/* duratiion and serving */}
+
+      <Text
+        style={{
+          paddingHorizontal: 10,
+          color: COLORS.lightGray,
+          ...FONTS.body4,
+        }}
+      >
+        {recipeItem.duration} | {recipeItem.serving} servings
+      </Text>
+    </View>
+  )
+}
+
+const RecipeCardInfo = ({ recipeItem }) => {
+  if (Platform.OS === 'ios') {
+    return (
+      <BlurView blurType="dark" style={styles.recipe_card_container}>
+        <RecipeCardDetails recipeItem={recipeItem} />
+      </BlurView>
+    )
+  } else {
+    return (
+      <View
+        style={{
+          ...styles.recipe_card_container,
+          backgroundColor: COLORS.transparentDarkGray,
+        }}
+      >
+        <RecipeCardDetails recipeItem={recipeItem} />
+      </View>
+    )
+  }
+}
 
 const TrendingCard = ({ containerStyle, recipeItem, onPress }) => {
   return (
@@ -48,7 +131,9 @@ const TrendingCard = ({ containerStyle, recipeItem, onPress }) => {
           {recipeItem.category}
         </Text>
       </View>
-      <Text>{recipeItem.name}</Text>
+
+      {/* card info */}
+      <RecipeCardInfo recipeItem={recipeItem} />
     </TouchableOpacity>
   )
 }
