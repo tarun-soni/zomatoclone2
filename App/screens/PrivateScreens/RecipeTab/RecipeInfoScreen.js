@@ -296,6 +296,27 @@ const RecipeInfoScreen = ({ navigation, route }) => {
     )
   }
 
+  function renderIngredientHeader() {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingHorizontal: 30,
+          marginTop: SIZES.radius,
+          marginBottom: SIZES.padding,
+          justifyContent: 'space-between',
+        }}
+      >
+        <Text style={{ flex: 1, color: COLORS.black, ...FONTS.h3 }}>
+          Ingredients
+        </Text>
+        <Text style={{ color: COLORS.zomatoLogoRed, ...FONTS.body4 }}>
+          {selectedRecipe?.ingredients?.length} items
+        </Text>
+      </View>
+    )
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.white }}>
       <Animated.FlatList
@@ -308,7 +329,8 @@ const RecipeInfoScreen = ({ navigation, route }) => {
             {renderRecipeCardHeader()}
             {/* info */}
             {renderRecipeInfoSection()}
-            {/* ingredient title */}
+            {/* ingredient header */}
+            {renderIngredientHeader()}
           </View>
         )}
         scrollEventThrottle={16}
