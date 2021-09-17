@@ -1,11 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
-import colors from '../constants/colors'
+import { COLORS } from '../constants/theme'
 
 const styles = StyleSheet.create({
   btn_text: {
     textAlign: 'center',
-    color: colors.zomatoWhite,
+    color: COLORS.zomatoWhite,
     fontSize: 14,
     textTransform: 'uppercase',
     fontWeight: 'bold',
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 14,
     paddingHorizontal: 8,
-    backgroundColor: colors.buttonRed,
+    backgroundColor: COLORS.buttonRed,
     margin: 40,
   },
   disabled: {

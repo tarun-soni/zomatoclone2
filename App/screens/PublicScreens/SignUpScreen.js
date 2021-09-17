@@ -9,24 +9,23 @@ import {
 } from 'react-native'
 import { Overlay } from 'react-native-elements'
 import { useDispatch, useSelector } from 'react-redux'
-import colors from '../../constants/colors'
 import CustomButton from '../../components/CustomButton'
 import CustomTextInput from '../../components/CustomTextInput'
 import { HOMESCREEN, LOGINSCREEN } from '../../constants/screens'
 import { auth, firestore } from '../../config/firebase'
 import { selectLoading, setLoading } from '../../redux/slices/appReducer'
 import Loader from '../../components/Loader'
+import { COLORS } from '../../constants/theme'
 
 const styles = StyleSheet.create({
   contanier: {
     flex: 1,
-    // backgroundColor: colors.zomatoWhite,
     backgroundColor: 'yellow',
     justifyContent: 'center',
   },
   text: {
     fontFamily: 'Nunito-Regular',
-    color: colors.zomatoLogoRed,
+    color: COLORS.zomatoLogoRed,
     textAlign: 'center',
   },
   inputs_container: {

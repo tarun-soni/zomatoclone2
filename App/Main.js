@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import auth from '@react-native-firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { HOMESCREEN, LOGINSCREEN } from './constants/screens'
+import { HOMESCREEN, PUBLIC_HOME_SCREEN } from './constants/screens'
 import { AppRoutes } from './config/routes/AppRoutes'
 import {
   selectIsLoggedIn,
@@ -47,7 +47,7 @@ const Main = () => {
 
   return (
     <MainStack.Navigator
-      initialRouteName={isLoggedIn ? HOMESCREEN : LOGINSCREEN}
+      initialRouteName={isLoggedIn ? HOMESCREEN : PUBLIC_HOME_SCREEN}
     >
       {AppRoutes.map(route => (
         <MainStack.Screen

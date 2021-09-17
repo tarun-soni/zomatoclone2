@@ -66,7 +66,6 @@ const UploadPicOverlay = ({
 
         {isUploading && (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            {/* eslint-disable-next-line react/jsx-one-expression-per-line */}
             <Text>{photoTransdered - 1}% completed </Text>
             <ActivityIndicator size="large" />
           </View>
