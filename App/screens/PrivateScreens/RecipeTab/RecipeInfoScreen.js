@@ -11,6 +11,7 @@ import {
 import { BlurView } from '@react-native-community/blur'
 import { Icon } from 'react-native-elements'
 import { COLORS, FONTS, SIZES } from '../../../constants/theme'
+import Viewers from './components/Viewers'
 
 const HEADER_HEIGHT = 350
 
@@ -102,11 +103,65 @@ const RecipeInfoScreen = ({ navigation, route }) => {
           right: 0,
           height: 90,
           flexDirection: 'row',
-          alignItems: 'center',
+          alignItems: 'flex-end',
           justifyContent: 'space-between',
           padding: SIZES.padding,
+          paddingBottom: 10,
         }}
       >
+        {/* screen overlay */}
+
+        <Animated.View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: COLORS.black,
+
+            opacity: scrollY.interpolate({
+              inputRange: [HEADER_HEIGHT - 100, HEADER_HEIGHT - 70],
+              outputRange: [0, 1],
+            }),
+          }}
+        />
+
+        {/* header bar title */}
+        <Animated.View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            paddingBottom: 10,
+            backgroundColor: COLORS.black,
+
+            opacity: scrollY.interpolate({
+              inputRange: [HEADER_HEIGHT - 100, HEADER_HEIGHT - 50],
+              outputRange: [0, 1],
+            }),
+            transform: [
+              {
+                translateY: scrollY.interpolate({
+                  inputRange: [HEADER_HEIGHT - 100, HEADER_HEIGHT - 50],
+                  outputRange: [50, 0],
+                  extrapolate: 'clamp',
+                }),
+              },
+            ],
+          }}
+        >
+          <Text style={{ color: COLORS.gray2, ...FONTS.body4 }}>
+            Recipe by:
+          </Text>
+          <Text style={{ color: COLORS.white2, ...FONTS.h3 }}>
+            {selectedRecipe?.author?.name}
+          </Text>
+        </Animated.View>
         <TouchableOpacity
           style={{
             width: 35,
@@ -205,6 +260,42 @@ const RecipeInfoScreen = ({ navigation, route }) => {
       </View>
     )
   }
+
+  function renderRecipeInfoSection() {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          height: 130,
+          width: SIZES.width,
+          paddingHorizontal: 30,
+          paddingVertical: 20,
+          alignItems: 'center',
+        }}
+      >
+        <View style={{ flex: 1.5, justifyContent: 'center' }}>
+          <Text style={{ ...FONTS.h2 }}>{selectedRecipe?.name}</Text>
+          <Text
+            style={{ marginTop: 5, color: COLORS.lightGray2, ...FONTS.body4 }}
+          >
+            {selectedRecipe?.duration} | {selectedRecipe?.serving} servings
+          </Text>
+        </View>
+
+        {/* viewers section */}
+
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+          }}
+        >
+          <Viewers viewersList={selectedRecipe?.viewers} />
+        </View>
+      </View>
+    )
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.white }}>
       <Animated.FlatList
@@ -216,6 +307,7 @@ const RecipeInfoScreen = ({ navigation, route }) => {
             {/* header */}
             {renderRecipeCardHeader()}
             {/* info */}
+            {renderRecipeInfoSection()}
             {/* ingredient title */}
           </View>
         )}
@@ -267,6 +359,7 @@ const RecipeInfoScreen = ({ navigation, route }) => {
             </View>
           </View>
         )}
+        ListFooterComponent={() => <View style={{ marginBottom: 100 }} />}
       />
 
       {/* header bar */}
