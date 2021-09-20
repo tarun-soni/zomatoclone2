@@ -253,3 +253,66 @@ export const trendingRecipes = [
     viewers: [],
   },
 ]
+
+export const restoDummyData = [
+  {
+    id: 1,
+    coordinate: {
+      latitude: 22.6293867,
+      longitude: 88.4354486,
+    },
+    title: 'Amazing Food Place',
+    description: 'This is the best food place',
+    image: images.restoBanner1,
+    rating: 4,
+    reviews: 99,
+  },
+  {
+    id: 2,
+    coordinate: {
+      latitude: 22.6345648,
+      longitude: 88.4377279,
+    },
+    title: 'Second Amazing Food Place',
+    description: 'This is the second best food place',
+    image: images.restoBanner2,
+    rating: 5,
+    reviews: 102,
+  },
+  {
+    id: 3,
+    coordinate: {
+      latitude: 22.6281662,
+      longitude: 88.4410113,
+    },
+    title: 'Third Amazing Food Place',
+    description: 'This is the third best food place',
+    image: images.restoBanner3,
+    rating: 3,
+    reviews: 220,
+  },
+  {
+    id: 4,
+    coordinate: {
+      latitude: 22.6341137,
+      longitude: 88.4497463,
+    },
+    title: 'Fourth Amazing Food Place',
+    description: 'This is the fourth best food place',
+    image: images.restoBanner4,
+    rating: 4,
+    reviews: 48,
+  },
+  {
+    id: 5,
+    coordinate: {
+      latitude: 22.6292757,
+      longitude: 88.444781,
+    },
+    title: 'Fifth Amazing Food Place',
+    description: 'This is the fifth best food place',
+    image: images.restoBanner5,
+    rating: 4,
+    reviews: 178,
+  },
+]

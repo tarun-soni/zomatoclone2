@@ -20,6 +20,12 @@ const UserProfile10 = require('../../assets/images/dummy_profiles/profile-pic-10
 
 const mapMarker = require('../../assets/images/map_marker.png')
 
+const restoBanner1 = require('../../assets/images/banners/food-banner1.jpg')
+const restoBanner2 = require('../../assets/images/banners/food-banner2.jpg')
+const restoBanner3 = require('../../assets/images/banners/food-banner3.jpg')
+const restoBanner4 = require('../../assets/images/banners/food-banner4.jpg')
+const restoBanner5 = require('../../assets/images/banners/food-banner5.jpg')
+
 export const images = {
   loginBackground,
   profile,
@@ -41,4 +47,10 @@ export const images = {
   UserProfile10,
 
   mapMarker,
+
+  restoBanner1,
+  restoBanner2,
+  restoBanner3,
+  restoBanner4,
+  restoBanner5,
 }
