@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   },
   name: {
     ...FONTS.h4,
+    lineHeight: 16,
     marginBottom: 5,
   },
   // Arrow below the bubble
@@ -29,11 +30,11 @@ const styles = StyleSheet.create({
   arrowBorder: {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
-    borderTopColor: '#007a87',
+    borderTopColor: '#fff',
     borderWidth: 16,
     alignSelf: 'center',
     marginTop: -0.5,
-    // marginBottom: -15,
+    marginBottom: -15,
   },
   // Character image
   callout_image: {
@@ -42,8 +43,9 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   callout_desc: {
-    ...FONTS.body4,
+    ...FONTS.body5,
     color: COLORS.gray,
+    lineHeight: 16,
   },
 })
 

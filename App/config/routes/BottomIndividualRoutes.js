@@ -19,7 +19,7 @@ const DineOutRoutes = [
   {
     name: DINEOUT_TAB_HOMESCREEN,
     component: DineOutTabHomeScreen,
-    options: { headerShown: true },
+    options: { headerShown: false },
   },
 ]
 

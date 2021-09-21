@@ -15,12 +15,12 @@ const BottomTabRoutes = [
   {
     name: ORDER_TAB,
     component: OrderTab,
-    options: {},
+    options: { headerShown: false },
   },
   {
     name: DINE_OUT_TAB,
     component: DineOutTabHomeScreen,
-    options: {},
+    options: { headerShown: false },
   },
   {
     name: RECIPE_TAB,
@@ -30,7 +30,7 @@ const BottomTabRoutes = [
   {
     name: USER_PROFILE_TAB,
     component: UserProfileTab,
-    options: {},
+    options: { headerShown: false },
   },
 ]
 const AdminBottomTabRoutes = [
@@ -38,7 +38,7 @@ const AdminBottomTabRoutes = [
   {
     name: ADMIN_TAB,
     component: AdminTab,
-    options: {},
+    options: { headerShown: false },
   },
 ]
 
