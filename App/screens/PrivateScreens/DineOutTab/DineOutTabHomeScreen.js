@@ -173,9 +173,8 @@ const DineOutTabHomeScreen = () => {
   })
 
   const onMarkerPress = mapEventData => {
-    const markerID = mapEventData._targetInst.return.key
+    const markerID = mapEventData._targetInst.return.index
 
-    console.log(`markerID`, markerID)
     let x = markerID * CARD_WIDTH + markerID * 20
     if (Platform.OS === 'ios') {
       x -= SPACING_FOR_CARD_INSET

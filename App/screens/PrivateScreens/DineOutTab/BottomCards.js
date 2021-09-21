@@ -72,7 +72,7 @@ const BottomCards = ({ data, mapAnimation, scrollViewRef }) => {
     <Animated.ScrollView
       ref={scrollViewRef}
       horizontal
-      pagingEnabled
+      decelerationRate="fast"
       scrollEventThrottle={1}
       showsHorizontalScrollIndicator={false}
       snapToInterval={CARD_WIDTH + 20}
