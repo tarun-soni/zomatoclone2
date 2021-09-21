@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   View,
   StyleSheet,
@@ -6,11 +6,12 @@ import {
   Text,
   TextInput,
   Platform,
+  Dimensions,
 } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Fontisto from 'react-native-vector-icons/Fontisto'
-import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps'
+import MapView, { PROVIDER_GOOGLE, Callout } from 'react-native-maps'
 import { images } from '../../../constants/images'
 import { COLORS, FONTS, SIZES } from '../../../constants/theme'
 import { standardMapStyles } from '../../../utils/mapStyles'
@@ -18,6 +19,11 @@ import { restoDummyData } from '../../../constants/dummyData'
 import CalloutCard from './CalloutCard'
 import TopChips from './TopChips'
 import BottomCards from './BottomCards'
+
+const { width } = Dimensions.get('window')
+
+const CARD_WIDTH = width * 0.8
+const SPACING_FOR_CARD_INSET = width * 0.1 - 10
 
 const styles = StyleSheet.create({
   container: {
@@ -113,27 +119,93 @@ const initialMapState = {
 
 const DineOutTabHomeScreen = () => {
   const [state] = useState(initialMapState)
-
   const _map = useRef(null)
+  const _scrollView = useRef(null)
 
-  const onMarkerPress = () => {}
+  let mapIndex = 0
+  // eslint-disable-next-line prefer-const
+  let mapAnimation = new Animated.Value(0)
+
+  useEffect(() => {
+    mapAnimation.addListener(({ value }) => {
+      let index = Math.floor(value / CARD_WIDTH + 0.3) // animate 30% away from landing on the next item
+      if (index >= state.restoDummyData.length) {
+        index = state.restoDummyData.length - 1
+      }
+      if (index <= 0) {
+        index = 0
+      }
+
+      // eslint-disable-next-line no-use-before-define
+      clearTimeout(regionTimeout)
+
+      const regionTimeout = setTimeout(() => {
+        if (mapIndex !== index) {
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          mapIndex = index
+          const { coordinate } = state.restoDummyData[index]
+          _map.current.animateToRegion(
+            {
+              ...coordinate,
+              latitudeDelta: state.region.latitudeDelta,
+              longitudeDelta: state.region.longitudeDelta,
+            },
+            350,
+          )
+        }
+      }, 10)
+    })
+  })
+  const interpolations = state.restoDummyData.map((marker, index) => {
+    const inputRange = [
+      (index - 1) * CARD_WIDTH,
+      index * CARD_WIDTH,
+      (index + 1) * CARD_WIDTH,
+    ]
+
+    const scale = mapAnimation.interpolate({
+      inputRange,
+      outputRange: [1, 1.5, 1],
+      extrapolate: 'clamp',
+    })
+
+    return { scale }
+  })
+
+  const onMarkerPress = mapEventData => {
+    const markerID = mapEventData._targetInst.return.key
+
+    console.log(`markerID`, markerID)
+    let x = markerID * CARD_WIDTH + markerID * 20
+    if (Platform.OS === 'ios') {
+      x -= SPACING_FOR_CARD_INSET
+    }
+
+    _scrollView.current.scrollTo({ x, y: 0, animated: true })
+  }
 
   return (
     <View style={styles.container}>
-      {/* <MapView
+      <MapView
         ref={_map}
         customMapStyle={standardMapStyles}
         provider={PROVIDER_GOOGLE}
         style={styles.container}
         initialRegion={state.region}
       >
-        {state.restoDummyData.map(marker => {
+        {state.restoDummyData.map((marker, index) => {
+          const scaleStyle = {
+            transform: [
+              {
+                scale: interpolations[index].scale,
+              },
+            ],
+          }
           return (
-            <Marker
+            <MapView.Marker
               key={marker.id}
               coordinate={marker.coordinate}
               onPress={e => onMarkerPress(e)}
-              pinColor="red"
             >
               <Callout tooltip>
                 <CalloutCard marker={marker} />
@@ -143,14 +215,14 @@ const DineOutTabHomeScreen = () => {
                 <Text style={styles.marker_title}>{marker.title}</Text>
                 <Animated.Image
                   source={images.mapMarker}
-                  style={[styles.marker]}
+                  style={[styles.marker, scaleStyle]}
                   resizeMode="cover"
                 />
               </Animated.View>
-            </Marker>
+            </MapView.Marker>
           )
         })}
-      </MapView> */}
+      </MapView>
 
       {/* search box */}
       <View style={styles.searchBox}>
@@ -164,7 +236,11 @@ const DineOutTabHomeScreen = () => {
       </View>
 
       <TopChips data={state.categories} />
-      <BottomCards data={state.restoDummyData} />
+      <BottomCards
+        data={state.restoDummyData}
+        mapAnimation={mapAnimation}
+        scrollViewRef={_scrollView}
+      />
     </View>
   )
 }

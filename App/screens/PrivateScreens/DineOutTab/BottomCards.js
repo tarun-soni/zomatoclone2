@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import {
   StyleSheet,
   Text,
@@ -9,9 +9,11 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native'
-import { COLORS, FONTS, SIZES } from '../../../constants/theme'
+import StarRating from '../../../components/StarRating'
+import { COLORS, FONTS } from '../../../constants/theme'
 
-const { width, height } = Dimensions.get('window')
+const { width } = Dimensions.get('window')
+
 const CARD_HEIGHT = 220
 const CARD_WIDTH = width * 0.8
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10
@@ -40,9 +42,9 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   card_title: { ...FONTS.h3, fontWeight: 'bold' },
-  cardDescription: { ...FONTS.body3, color: COLORS.gray },
+  card_desctiption: { ...FONTS.body3, color: COLORS.gray },
   card_image: {
-    flex: 1,
+    flex: 2,
     width: '100%',
     height: '100%',
     alignSelf: 'center',
@@ -59,13 +61,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 5,
   },
+  text_content: {
+    flex: 2,
+    padding: 10,
+  },
 })
 
-const BottomCards = ({ data }) => {
-  const _scrollView = useRef(null)
+const BottomCards = ({ data, mapAnimation, scrollViewRef }) => {
   return (
     <Animated.ScrollView
-      ref={_scrollView}
+      ref={scrollViewRef}
       horizontal
       pagingEnabled
       scrollEventThrottle={1}
@@ -83,6 +88,18 @@ const BottomCards = ({ data }) => {
         paddingHorizontal:
           Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
       }}
+      onScroll={Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: {
+                x: mapAnimation,
+              },
+            },
+          },
+        ],
+        { useNativeDriver: true },
+      )}
     >
       {data.map(marker => (
         <View style={styles.card} key={marker.id}>
@@ -91,34 +108,39 @@ const BottomCards = ({ data }) => {
             style={styles.card_image}
             resizeMode="cover"
           />
-          <Text numberOfLines={1} style={styles.card_title}>
-            {marker.title}
-          </Text>
-          <Text numberOfLines={1} style={styles.cardDescription}>
-            {marker.description}
-          </Text>
-          <View style={styles.button}>
-            <TouchableOpacity
-              onPress={() => {}}
-              style={[
-                styles.signIn,
-                {
-                  borderColor: COLORS.zomatoLogoRed,
-                  borderWidth: 1,
-                },
-              ]}
-            >
-              <Text
+
+          <View style={styles.text_content}>
+            <Text numberOfLines={1} style={styles.card_title}>
+              {marker.title}
+            </Text>
+            <StarRating ratings={marker.rating} reviews={marker.reviews} />
+            <Text numberOfLines={1} style={styles.card_desctiption}>
+              {marker.description}
+            </Text>
+
+            <View style={styles.button}>
+              <TouchableOpacity
+                onPress={() => {}}
                 style={[
-                  styles.textSign,
+                  styles.signIn,
                   {
-                    color: COLORS.zomatoLogoRed,
+                    borderColor: COLORS.zomatoLogoRed,
+                    borderWidth: 1,
                   },
                 ]}
               >
-                Order Now
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={[
+                    styles.textSign,
+                    {
+                      color: COLORS.zomatoLogoRed,
+                    },
+                  ]}
+                >
+                  Order Now
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       ))}
