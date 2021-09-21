@@ -17,6 +17,7 @@ import { standardMapStyles } from '../../../utils/mapStyles'
 import { restoDummyData } from '../../../constants/dummyData'
 import CalloutCard from './CalloutCard'
 import TopChips from './TopChips'
+import BottomCards from './BottomCards'
 
 const styles = StyleSheet.create({
   container: {
@@ -119,7 +120,7 @@ const DineOutTabHomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <MapView
+      {/* <MapView
         ref={_map}
         customMapStyle={standardMapStyles}
         provider={PROVIDER_GOOGLE}
@@ -149,7 +150,7 @@ const DineOutTabHomeScreen = () => {
             </Marker>
           )
         })}
-      </MapView>
+      </MapView> */}
 
       {/* search box */}
       <View style={styles.searchBox}>
@@ -163,6 +164,7 @@ const DineOutTabHomeScreen = () => {
       </View>
 
       <TopChips data={state.categories} />
+      <BottomCards data={state.restoDummyData} />
     </View>
   )
 }
