@@ -7,7 +7,7 @@ export const trendingRecipes = [
     name: 'Spaghetti With Shrimp Sauce',
     image: images.spagetti,
     duration: '30 mins',
-    serving: 1,
+    servings: 1,
     isBookmark: false,
     category: 'Pasta',
     author: {
@@ -76,7 +76,7 @@ export const trendingRecipes = [
     name: 'Malaysian Chicken Satay',
     image: images.satay,
     duration: '50 mins',
-    serving: 10,
+    servings: 10,
     isBookmark: true,
     category: 'Local',
     author: {
@@ -143,7 +143,7 @@ export const trendingRecipes = [
     name: 'Sarawak Laksa',
     image: images.laksa,
     duration: '30 mins',
-    serving: 1,
+    servings: 1,
     isBookmark: true,
     category: 'Local',
     author: {
@@ -211,7 +211,7 @@ export const trendingRecipes = [
     name: 'Nasi Lemak',
     image: images.nasiLemak,
     duration: '1 hour',
-    serving: 10,
+    servings: 10,
     isBookmark: true,
     category: 'Local',
     author: {

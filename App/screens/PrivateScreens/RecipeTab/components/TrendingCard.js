@@ -49,7 +49,7 @@ const RecipeCardDetails = ({ recipeItem }) => {
           color="white"
         />
       </View>
-      {/* duratiion and serving */}
+      {/* duratiion and servings */}
 
       <Text
         style={{
@@ -58,7 +58,7 @@ const RecipeCardDetails = ({ recipeItem }) => {
           ...FONTS.body4,
         }}
       >
-        {recipeItem.duration} | {recipeItem.serving} servings
+        {recipeItem.duration} | {recipeItem.servings} servings
       </Text>
     </View>
   )
@@ -101,7 +101,8 @@ const TrendingCard = ({ containerStyle, recipeItem, onPress }) => {
       {/* bg image */}
 
       <Image
-        source={recipeItem.image}
+        // source={recipeItem.image}
+        source={{ uri: recipeItem.image }}
         resizeMode="cover"
         style={{
           height: '100%',

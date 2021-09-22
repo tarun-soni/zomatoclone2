@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   FlatList,
   TextInput,
@@ -7,16 +7,40 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  ActivityIndicator,
 } from 'react-native'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
+import { useDispatch, useSelector } from 'react-redux'
 import { COLORS, FONTS, SIZES } from '../../../constants/theme'
 import { trendingRecipes } from '../../../constants/dummyData'
 import CategoryCard from './components/CategoryCard'
 import { RECIPE_INFO_SCREEN } from '../../../constants/screens'
 import { images } from '../../../constants/images'
 import TrendingCard from './components/TrendingCard'
+import { selectGlobalUser } from '../../../redux/slices/appReducer'
+import {
+  getRecipes,
+  selectAllRecipes,
+  selectGetAllRecipesStatus,
+} from '../../../redux/slices/recipeReducer'
 
 const RecipeTabHomeScreen = ({ navigation }) => {
+  const user = useSelector(selectGlobalUser)
+  const allRecipes = useSelector(selectAllRecipes)
+  const status = useSelector(selectGetAllRecipesStatus)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getRecipes())
+  }, [dispatch])
+
+  useEffect(() => {
+    console.log(`allRecipes`, allRecipes)
+  }, [allRecipes])
+  useEffect(() => {
+    console.log(`status`, status)
+  }, [status])
+
   function renderHeader() {
     return (
       <View
@@ -30,7 +54,7 @@ const RecipeTabHomeScreen = ({ navigation }) => {
       >
         <View>
           <Text style={{ color: COLORS.zomatoLogoRed, ...FONTS.h2 }}>
-            Hello, User
+            Hello, {user?.displayName}
           </Text>
 
           <Text
@@ -153,7 +177,7 @@ const RecipeTabHomeScreen = ({ navigation }) => {
         </Text>
 
         <FlatList
-          data={trendingRecipes}
+          data={allRecipes}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={item => `${item.id}`}
@@ -191,6 +215,21 @@ const RecipeTabHomeScreen = ({ navigation }) => {
     )
   }
 
+  if (status === 'loading' || status === null) {
+    return (
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: COLORS.zomatoWhite,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <ActivityIndicator size="large" color={COLORS.zomatoLogoRed} />
+      </SafeAreaView>
+    )
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -200,7 +239,7 @@ const RecipeTabHomeScreen = ({ navigation }) => {
     >
       <FlatList
         style={{ marginBottom: 20 }}
-        data={trendingRecipes}
+        data={allRecipes}
         keyExtractor={item => `${item.id}`}
         keyboardDismissMode="on-drag"
         showsVerticalScrollIndicator={false}

@@ -208,7 +208,7 @@ const RecipeInfoScreen = ({ navigation, route }) => {
       >
         {/* bgimage */}
         <Animated.Image
-          source={selectedRecipe?.image}
+          source={{ uri: selectedRecipe?.image }}
           resizeMode="contain"
           style={{
             height: HEADER_HEIGHT,
@@ -278,7 +278,7 @@ const RecipeInfoScreen = ({ navigation, route }) => {
           <Text
             style={{ marginTop: 5, color: COLORS.lightGray2, ...FONTS.body4 }}
           >
-            {selectedRecipe?.duration} | {selectedRecipe?.serving} servings
+            {selectedRecipe?.duration} | {selectedRecipe?.servings} servings
           </Text>
         </View>
 
@@ -357,7 +357,10 @@ const RecipeInfoScreen = ({ navigation, route }) => {
                 backgroundColor: COLORS.lightGreen,
               }}
             >
-              <Image source={item.icon} style={{ width: 40, height: 40 }} />
+              <Image
+                source={{ uri: item.icon }}
+                style={{ width: 40, height: 40 }}
+              />
             </View>
             {/* desc */}
             <View
