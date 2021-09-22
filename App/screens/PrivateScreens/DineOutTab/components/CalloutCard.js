@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, Animated } from 'react-native'
-import { COLORS, FONTS, SIZES } from '../../../constants/theme'
+import { FONTS, COLORS, SIZES } from '../../../../constants/theme'
 
 const styles = StyleSheet.create({
   bubble: {

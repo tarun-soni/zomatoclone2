@@ -16,9 +16,9 @@ import { images } from '../../../constants/images'
 import { COLORS, FONTS, SIZES } from '../../../constants/theme'
 import { standardMapStyles } from '../../../utils/mapStyles'
 import { restoDummyData } from '../../../constants/dummyData'
-import CalloutCard from './CalloutCard'
-import TopChips from './TopChips'
-import BottomCards from './BottomCards'
+import CalloutCard from './components/CalloutCard'
+import TopChips from './components/TopChips'
+import BottomCards from './components/BottomCards'
 
 const { width } = Dimensions.get('window')
 

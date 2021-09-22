@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native'
-import { COLORS } from '../../../constants/theme'
+import { COLORS } from '../../../../constants/theme'
 
 const styles = StyleSheet.create({
   chipsScrollView: {

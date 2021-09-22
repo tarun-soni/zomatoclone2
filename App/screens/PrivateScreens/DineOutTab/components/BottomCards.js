@@ -9,8 +9,8 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native'
-import StarRating from '../../../components/StarRating'
-import { COLORS, FONTS } from '../../../constants/theme'
+import StarRating from '../../../../components/StarRating'
+import { COLORS, FONTS } from '../../../../constants/theme'
 
 const { width } = Dimensions.get('window')
 
