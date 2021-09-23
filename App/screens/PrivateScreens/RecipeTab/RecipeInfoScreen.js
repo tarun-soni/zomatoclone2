@@ -21,7 +21,7 @@ const RecipeCreatorCardDetails = ({ selectedRecipe }) => {
       {/* profile pic */}
       <View style={{ width: 40, height: 40, marginLeft: 20 }}>
         <Image
-          source={selectedRecipe?.author?.profilePic}
+          source={{ uri: selectedRecipe?.author[0]?.photoURL }}
           style={{ width: 40, height: 40, borderRadius: 20 }}
         />
       </View>
@@ -31,9 +31,14 @@ const RecipeCreatorCardDetails = ({ selectedRecipe }) => {
         <Text style={{ color: COLORS.lightGray, ...FONTS.body4 }}>
           Recipe By
         </Text>
-        <Text style={{ color: COLORS.white2, ...FONTS.h4 }}>
-          {selectedRecipe?.author?.name}
-        </Text>
+        {selectedRecipe?.author?.map(eachAuthor => (
+          <Text
+            key={eachAuthor?.id}
+            style={{ color: COLORS.white2, ...FONTS.h3 }}
+          >
+            test{eachAuthor.displayName}
+          </Text>
+        ))}
       </View>
 
       {/* button */}
@@ -86,6 +91,7 @@ const RecipeCreatorCardInfo = ({ selectedRecipe }) => {
 const RecipeInfoScreen = ({ navigation, route }) => {
   const [selectedRecipe, setSelectedRecipe] = useState(null)
 
+  console.log(`selectedRecipe`, selectedRecipe)
   const scrollY = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
@@ -158,9 +164,15 @@ const RecipeInfoScreen = ({ navigation, route }) => {
           <Text style={{ color: COLORS.gray2, ...FONTS.body4 }}>
             Recipe by:
           </Text>
-          <Text style={{ color: COLORS.white2, ...FONTS.h3 }}>
-            {selectedRecipe?.author?.name}
-          </Text>
+
+          {selectedRecipe?.author?.map(eachAuthor => (
+            <Text
+              key={eachAuthor?.id}
+              style={{ color: COLORS.white2, ...FONTS.h3 }}
+            >
+              test{eachAuthor.displayName}
+            </Text>
+          ))}
         </Animated.View>
         <TouchableOpacity
           style={{

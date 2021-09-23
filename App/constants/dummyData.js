@@ -11,7 +11,7 @@ export const trendingRecipes = [
     isBookmark: false,
     category: 'Pasta',
     author: {
-      profilePic: images.UserProfile5,
+      photoURL: 'https://imgur.com/iywe3hb',
       name: 'Maria',
     },
     ingredients: [
@@ -55,19 +55,19 @@ export const trendingRecipes = [
     viewers: [
       {
         id: 1,
-        profilePic: images.UserProfile1,
+        photoURL: images.UserProfile1,
       },
       {
         id: 2,
-        profilePic: images.UserProfile2,
+        photoURL: images.UserProfile2,
       },
       {
         id: 3,
-        profilePic: images.UserProfile3,
+        photoURL: images.UserProfile3,
       },
       {
         id: 4,
-        profilePic: images.UserProfile3,
+        photoURL: images.UserProfile3,
       },
     ],
   },
@@ -80,7 +80,7 @@ export const trendingRecipes = [
     isBookmark: true,
     category: 'Local',
     author: {
-      profilePic: images.UserProfile8,
+      photoURL: 'https://i.imgur.com/nBV5d77.jpeg',
       name: 'Mandy',
     },
     ingredients: [
@@ -118,23 +118,23 @@ export const trendingRecipes = [
     viewers: [
       {
         id: 1,
-        profilePic: images.UserProfile5,
+        photoURL: images.UserProfile5,
       },
       {
         id: 2,
-        profilePic: images.UserProfile4,
+        photoURL: images.UserProfile4,
       },
       {
         id: 3,
-        profilePic: images.UserProfile1,
+        photoURL: images.UserProfile1,
       },
       {
         id: 4,
-        profilePic: images.UserProfile2,
+        photoURL: images.UserProfile2,
       },
       {
         id: 5,
-        profilePic: images.UserProfile3,
+        photoURL: images.UserProfile3,
       },
     ],
   },
@@ -147,7 +147,7 @@ export const trendingRecipes = [
     isBookmark: true,
     category: 'Local',
     author: {
-      profilePic: images.UserProfile9,
+      photoURL: images.UserProfile9,
       name: 'Jessie',
     },
     ingredients: [
@@ -192,17 +192,17 @@ export const trendingRecipes = [
       {
         id: 1,
         name: 'User 1',
-        profilePic: images.UserProfile1,
+        photoURL: images.UserProfile1,
       },
       {
         id: 2,
         name: 'User 2',
-        profilePic: images.UserProfile2,
+        photoURL: images.UserProfile2,
       },
       {
         id: 3,
         name: 'User 3',
-        profilePic: images.UserProfile3,
+        photoURL: images.UserProfile3,
       },
     ],
   },
@@ -215,7 +215,7 @@ export const trendingRecipes = [
     isBookmark: true,
     category: 'Local',
     author: {
-      profilePic: images.UserProfile7,
+      photoURL: images.UserProfile7,
       name: 'Ali Baba',
     },
     ingredients: [

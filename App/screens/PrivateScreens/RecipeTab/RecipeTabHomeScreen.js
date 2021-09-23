@@ -12,7 +12,7 @@ import {
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { useDispatch, useSelector } from 'react-redux'
 import { COLORS, FONTS, SIZES } from '../../../constants/theme'
-import { trendingRecipes } from '../../../constants/dummyData'
+// import { trendingRecipes } from '../../../constants/dummyData'
 import CategoryCard from './components/CategoryCard'
 import { RECIPE_INFO_SCREEN } from '../../../constants/screens'
 import { images } from '../../../constants/images'

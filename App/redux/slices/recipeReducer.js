@@ -15,15 +15,19 @@ export const getRecipes = createAsyncThunk('recipe/getRecipes', async () => {
 
     // eslint-disable-next-line no-inner-declarations
     async function getAllRecipesPromise(eachRecipe) {
+      console.log(`eachRecipe`, eachRecipe)
+
+      const { category, duration, isBookmark, image, servings, name } =
+        eachRecipe._data
       const recipeObject = {
         id: eachRecipe.id,
-        category: eachRecipe._data.category,
-        duration: eachRecipe._data.duration,
-        isBookmark: eachRecipe._data.isBookmark,
-        image: eachRecipe._data.image,
-        name: eachRecipe._data.name,
-        servings: eachRecipe._data.servings,
-        author: eachRecipe._data.author,
+        category,
+        duration,
+        isBookmark,
+        image,
+        name,
+        servings,
+        author: null,
         ingredients: [],
       }
 
@@ -40,12 +44,33 @@ export const getRecipes = createAsyncThunk('recipe/getRecipes', async () => {
           quantity: ingredientsCollection?._data?.quantity,
         }
       }
+      async function getAllAuthors(item) {
+        const authorData = await firestore()
+          .collection('users')
+          .doc(item.id)
+          .get()
+
+        return {
+          id: authorData?.id,
+          displayName: authorData?._data?.displayName,
+          photoURL: authorData?._data?.photoURL,
+        }
+      }
 
       const allIngredients = await Promise.all(
         eachRecipe?._data?.ingredients?.map(getIngredients),
       )
-      console.log(`allIngredients`, [...allIngredients])
-      dataToReturn.push({ ...recipeObject, ingredients: [...allIngredients] })
+
+      const allAuth = await Promise.all(
+        eachRecipe?._data?.author?.map(getAllAuthors),
+      )
+      console.log(`allAuth`, allAuth)
+      dataToReturn.push({
+        ...recipeObject,
+        ingredients: [...allIngredients],
+        author: [...allAuth],
+      })
+
       return dataToReturn
     }
 
