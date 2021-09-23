@@ -1,4 +1,6 @@
 const loginBackground = require('../../assets/images/system/login-background.png')
+const defaultImage = require('../../assets/images/image-loader.png')
+const svgLoader = require('../../assets/images/svg-loader.svg')
 
 const recipe = require('../../assets/images/recipes/recipe.png')
 const spagetti = require('../../assets/images/recipes/spagetti.png')
@@ -28,6 +30,9 @@ const restoBanner5 = require('../../assets/images/banners/food-banner5.jpg')
 
 export const images = {
   loginBackground,
+  defaultImage,
+  svgLoader,
+
   profile,
   recipe,
   spagetti,

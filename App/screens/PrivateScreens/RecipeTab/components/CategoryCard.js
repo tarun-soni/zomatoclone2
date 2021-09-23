@@ -1,5 +1,6 @@
 import React from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import ProgressiveImage from '../../../../components/ProgressiveImage'
 import { COLORS, FONTS, SIZES } from '../../../../constants/theme'
 
 const styles = StyleSheet.create({
@@ -19,8 +20,7 @@ const CategoryCard = ({ containerStyle, categoryItem, onPress }) => {
       style={[styles.card_container, { ...containerStyle }]}
       onPress={onPress}
     >
-      <Image
-        // source={categoryItem.image}
+      <ProgressiveImage
         source={{ uri: categoryItem.image }}
         resizeMode="cover"
         style={{
@@ -29,6 +29,7 @@ const CategoryCard = ({ containerStyle, categoryItem, onPress }) => {
           borderRadius: SIZES.radius,
         }}
       />
+
       <View
         style={{
           width: '65%',

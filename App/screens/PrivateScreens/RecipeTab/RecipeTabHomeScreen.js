@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image,
   Text,
-  ActivityIndicator,
 } from 'react-native'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,6 +22,7 @@ import {
   selectGetAllRecipesStatus,
 } from '../../../redux/slices/recipeReducer'
 import { getRecipes } from '../../../redux/asyncThunks/recipeAsyncThunk'
+import RecipeHomeSkeleton from './components/RecipeHomeSkeleton'
 
 const RecipeTabHomeScreen = ({ navigation }) => {
   const user = useSelector(selectGlobalUser)
@@ -225,7 +225,8 @@ const RecipeTabHomeScreen = ({ navigation }) => {
           justifyContent: 'center',
         }}
       >
-        <ActivityIndicator size="large" color={COLORS.zomatoLogoRed} />
+        {/* <ActivityIndicator size="large" color={COLORS.zomatoLogoRed} /> */}
+        <RecipeHomeSkeleton />
       </SafeAreaView>
     )
   }
