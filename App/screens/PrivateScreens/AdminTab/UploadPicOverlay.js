@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux'
 import CustomButton from '../../../components/CustomButton'
 import {
   selectIsPhotoUploading,
-  selectPHotoTransfered,
+  selectPhotoTransfered,
 } from '../../../redux/slices/restoReducer'
 
 const styles = StyleSheet.create({
@@ -30,7 +30,7 @@ const UploadPicOverlay = ({
   restoImage,
   updatePhotoHandler,
 }) => {
-  const photoTransdered = useSelector(selectPHotoTransfered)
+  const photoTransfered = useSelector(selectPhotoTransfered)
   const isUploading = useSelector(selectIsPhotoUploading)
 
   const onSavePressHandler = async () => {
@@ -39,6 +39,7 @@ const UploadPicOverlay = ({
   const onClosePressHandler = () => {
     setUploadImageOverlay(false)
   }
+
   return (
     <>
       <SafeAreaView
@@ -66,7 +67,7 @@ const UploadPicOverlay = ({
 
         {isUploading && (
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <Text>{photoTransdered - 1}% completed </Text>
+            <Text>{photoTransfered - 1}% completed </Text>
             <ActivityIndicator size="large" />
           </View>
         )}

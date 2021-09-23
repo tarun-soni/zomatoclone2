@@ -13,13 +13,13 @@ import { Overlay } from 'react-native-elements/dist/overlay/Overlay'
 import { useDispatch, useSelector } from 'react-redux'
 import CustomButton from '../../../components/CustomButton'
 import CustomTextInput from '../../../components/CustomTextInput'
-import {
-  selectRestoToEdit,
-  updateRestoInfo,
-  updateRestoPhoto,
-} from '../../../redux/slices/restoReducer'
+import { selectRestoToEdit } from '../../../redux/slices/restoReducer'
 import { COLORS } from '../../../constants/theme'
 import UploadPicOverlay from './UploadPicOverlay'
+import {
+  updateRestoInfo,
+  updateRestoPhoto,
+} from '../../../redux/asyncThunks/restoAsyncThunks'
 
 const styles = StyleSheet.create({
   card_image: {

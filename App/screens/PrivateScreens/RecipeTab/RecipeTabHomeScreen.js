@@ -19,10 +19,10 @@ import { images } from '../../../constants/images'
 import TrendingCard from './components/TrendingCard'
 import { selectGlobalUser } from '../../../redux/slices/appReducer'
 import {
-  getRecipes,
   selectAllRecipes,
   selectGetAllRecipesStatus,
 } from '../../../redux/slices/recipeReducer'
+import { getRecipes } from '../../../redux/asyncThunks/recipeAsyncThunk'
 
 const RecipeTabHomeScreen = ({ navigation }) => {
   const user = useSelector(selectGlobalUser)

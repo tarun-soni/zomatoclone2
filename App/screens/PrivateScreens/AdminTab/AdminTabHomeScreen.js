@@ -17,11 +17,11 @@ import { selectLoading } from '../../../redux/slices/appReducer'
 import Loader from '../../../components/Loader'
 import { EDIT_RESTO_SCREEN } from '../../../constants/screens'
 import {
-  getRestos,
   selectAllRestos,
   selectGetRestoStatus,
   setStoreRestoToEdit,
 } from '../../../redux/slices/restoReducer'
+import { getRestos } from '../../../redux/asyncThunks/restoAsyncThunks'
 
 const styles = StyleSheet.create({
   cards_container: {
