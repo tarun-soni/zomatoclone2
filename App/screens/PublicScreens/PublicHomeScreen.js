@@ -9,7 +9,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient'
 import { images } from '../../constants/images'
 import { COLORS, FONTS, SIZES } from '../../constants/theme'
-import BasicButton from '../../components/BasicButton'
+import GradientButton from '../../components/GradientButton'
 
 import { LOGINSCREEN, SIGNUPSCREEN } from '../../constants/screens'
 
@@ -86,7 +86,7 @@ const PublicHomeScreen = ({ navigation }) => {
             justifyContent: 'center',
           }}
         >
-          <BasicButton
+          <GradientButton
             text="LOGIN"
             propColors={[COLORS.buttonRed, COLORS.buttonRed]}
             onPress={() => navigation.navigate(LOGINSCREEN)}
@@ -95,7 +95,7 @@ const PublicHomeScreen = ({ navigation }) => {
               borderRadius: 8,
             }}
           />
-          <BasicButton
+          <GradientButton
             propColors={[]}
             text="SIGNUP"
             onPress={() => navigation.navigate(SIGNUPSCREEN)}

@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const BasicButton = ({
+const GradientButton = ({
   text,
   onPress,
   isDisabled,
@@ -47,8 +47,8 @@ const BasicButton = ({
   }
 }
 
-BasicButton.defaultProps = {
+GradientButton.defaultProps = {
   isDisabled: false,
 }
 
-export default BasicButton
+export default GradientButton
