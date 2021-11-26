@@ -12,6 +12,7 @@ import { BlurView } from '@react-native-community/blur'
 import { Icon } from 'react-native-elements'
 import { COLORS, FONTS, SIZES } from '../../../constants/theme'
 import Viewers from './components/Viewers'
+import Stepper from '../../../components/Stepper'
 
 const HEADER_HEIGHT = 350
 
@@ -91,7 +92,6 @@ const RecipeCreatorCardInfo = ({ selectedRecipe }) => {
 const RecipeInfoScreen = ({ navigation, route }) => {
   const [selectedRecipe, setSelectedRecipe] = useState(null)
 
-  console.log(`selectedRecipe`, selectedRecipe)
   const scrollY = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
@@ -329,6 +329,48 @@ const RecipeInfoScreen = ({ navigation, route }) => {
     )
   }
 
+  function renderStepsHeader() {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingHorizontal: 30,
+          marginTop: SIZES.radius,
+          marginBottom: SIZES.padding,
+          justifyContent: 'space-between',
+        }}
+      >
+        <Text style={{ flex: 1, color: COLORS.black, ...FONTS.h3 }}>Steps</Text>
+        <Text style={{ color: COLORS.zomatoLogoRed, ...FONTS.body4 }}>
+          {selectedRecipe?.steps?.length} steps
+        </Text>
+      </View>
+    )
+  }
+
+  function renderSteps() {
+    return (
+      <View>
+        {selectedRecipe?.steps?.map((step, index) => (
+          <View
+            style={{
+              flexDirection: 'column',
+              paddingHorizontal: 30,
+              marginBottom: SIZES.padding,
+              justifyContent: 'space-between',
+            }}
+          >
+            <Stepper
+              step={step}
+              index={index}
+              isLastStep={index + 1 === selectedRecipe?.steps?.length}
+            />
+          </View>
+        ))}
+      </View>
+    )
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.white }}>
       <Animated.FlatList
@@ -396,11 +438,18 @@ const RecipeInfoScreen = ({ navigation, route }) => {
             </View>
           </View>
         )}
-        ListFooterComponent={() => <View style={{ marginBottom: 100 }} />}
+        ListFooterComponent={() => (
+          <View style={{ marginVertical: 40, marginHorizontal: 10 }}>
+            {renderStepsHeader()}
+            {renderSteps()}
+          </View>
+        )}
       />
 
       {/* header bar */}
       {renderHeaderBar()}
+
+      {/* render Steps */}
     </View>
   )
 }

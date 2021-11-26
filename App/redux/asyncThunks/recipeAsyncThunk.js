@@ -27,7 +27,7 @@ export const getRecipes = createAsyncThunk('recipe/getRecipes', async () => {
 
     // eslint-disable-next-line no-inner-declarations
     async function getAllRecipesPromise(eachRecipe) {
-      const { category, duration, isBookmark, image, servings, name } =
+      const { category, duration, isBookmark, image, servings, name, steps } =
         eachRecipe._data
       const recipeObject = {
         id: eachRecipe.id,
@@ -39,6 +39,7 @@ export const getRecipes = createAsyncThunk('recipe/getRecipes', async () => {
         servings,
         author: null,
         ingredients: [],
+        steps,
       }
 
       const allIngredients = await Promise.all(
@@ -48,7 +49,7 @@ export const getRecipes = createAsyncThunk('recipe/getRecipes', async () => {
       const allAuth = await Promise.all(
         eachRecipe?._data?.author?.map(getAllAuthors),
       )
-      console.log(`allAuth`, allAuth)
+
       dataToReturn.push({
         ...recipeObject,
         ingredients: [...allIngredients],
@@ -60,6 +61,7 @@ export const getRecipes = createAsyncThunk('recipe/getRecipes', async () => {
 
     await Promise.all(recipesCollection?._docs.map(getAllRecipesPromise))
 
+    console.log('dataToReturn :>> ', dataToReturn)
     return dataToReturn
   } catch (error) {
     console.log(`error`, error)
